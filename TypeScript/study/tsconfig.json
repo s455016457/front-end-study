@@ -1,12 +1,13 @@
 {
-    "compilerOptions": {
-        "module": "amd",
-        "noImplicitAny": true,
-        "removeComments": false,
-        "preserveConstEnums": true,
-		"outFile": "main.js",
-        "sourceMap": true
-    },
+  "compilerOptions": {
+    "target": "ES5",
+    "module": "amd",
+    "noImplicitAny": true,
+    "removeComments": false,
+    "preserveConstEnums": true,
+    "outFile": "main.js",
+    "sourceMap": true
+  },
     "include": [
         "*.ts"
     ]
