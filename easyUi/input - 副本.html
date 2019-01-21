@@ -1,0 +1,47 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+<title>表单验证</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
+<link href="F:\MyProjects\study\easyUi\jquery-easyui-1.4.3\themes\icon.css" rel="stylesheet" />
+<link href="F:\MyProjects\study\easyUi\jquery-easyui-1.4.3\themes\default\easyui.css" rel="stylesheet" />
+<link href="F:\MyProjects\study\easyUi\jquery-easyui-1.4.3\extension\portal.css" rel="stylesheet" />
+<script src="F:\MyProjects\study\easyUi\jquery-easyui-1.4.3\jquery.min.js"></script>
+<script src="F:\MyProjects\study\easyUi\jquery-easyui-1.4.3\jquery.easyui.min.js"></script>
+<script src="F:\MyProjects\study\easyUi\jquery-easyui-1.4.3\extension\jquery.portal.js"></script>
+<script src="F:\MyProjects\study\easyUi\jquery-easyui-1.4.3\locale\easyui-lang-zh_CN.js"></script>
+<script type="text/javascript">
+///js智能提示
+/// <reference path=""F:\MyProjects\study\easyUi\jquery-easyui-1.4.3\jquery.min.js"/>
+/// <reference path="F:\MyProjects\study\easyUi\jquery-easyui-1.4.3\jquery.easyui.min.js"/>
+/// <reference path="F:\MyProjects\study\easyUi\jquery-easyui-1.4.3\extension\jquery.portal.js"/>
+    $(function () {
+	
+		var p = $('<div></div>').appendTo('body');    
+		p.panel({    
+			title: 'My Title',    
+			height:150,    
+			closable: true,    
+			collapsible: true   
+		});    
+			 
+		// add the panel to portal    
+		$('#pp').portal('add', {    
+			panel: p,    
+			columnIndex: 0    
+		});   
+    });
+</script>
+
+</head>
+<body >
+    <form>
+		<div id="pp" style="width:800px;height:500px;">   
+			<div style="width:33%"></div>   
+			<div style="width:33%"></div>   
+			<div style="width:33%"></div>   
+		</div>      
+	</form>
+</body>
+</html>

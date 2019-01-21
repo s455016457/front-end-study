@@ -1,0 +1,118 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+<title>表单验证</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<script src="angular.js\angular.js">
+//js只能提示
+/// <reference path="F:\MyProjects\study\TestAngularJS\angular.js\angular.js"/>
+</script>
+
+<!-- 表单验证成功或失败时输入框的样式 -->
+<style>
+.ng-pristine {}
+.ng-dirty {}
+.ng-valid {}
+.ng-invalid {}
+input.ng-invalid {
+    border: 1px solid red;
+}
+input.ng-valid {
+    border: 1px solid green;
+}
+</style>
+</head>
+<body ng-app="myApp">
+    <form name="submit_form" novalidate="false" ng-controller="submitController" novalidateng-submit="submitForm()">
+        <fieldset>
+        <legend>用户注册</legend>
+        <div class="row">
+            <div class="large-12 columns">
+                <label for="name">姓名</label>
+                <input type="text" id="name" placeholder="Name" name="name" ng-model="user.name" ng-minlength="3" ng-maxlength="20" required />
+                <div class="error" ng-show="submit_form.name.$dirty && submit_form.name.$invalid">
+                    <small class="error" ng-show="submit_form.name.$error.required">姓名不能为空</small>
+                    <small class="error" ng-show="submit_form.name.$error.minlength">姓名最短为3位</small>
+                    <small class="error" ng-show="submit_form.name.$error.maxlength">姓名最长不超过20位</small>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="large-12 columns">
+                <label name="email" for="email">电子邮箱</label>
+                <input type="email" id="email" name="email" ng-model="user.email" placeholder="电子邮箱" required ng-minlength="8" ng-maxlength="50" />
+                <div class="error" ng-show="submit_form.email.$dirty && submit_form.email.$invalid">
+                    <small class="error" ng-show="submit_form.email.$error.required">电子邮箱不能为空</small>
+                    <small class="error" ng-show="submit_form.email.$error.minlength">电子邮箱最短为8位</small>
+                    <small class="error" ng-show="submit_form.email.$error.email">电子邮箱格式不正确</small>
+                    <small class="error" ng-show="submit_form.email.$error.maxlength">电子邮箱最长不超过50位</small>
+                </div>
+            </div>
+            <div class="large-12 columns">
+                <label>用户名</label>
+                <input type="text"  placeholder="请输入用户名" name="username" ng-model="user.username" ng-minlength="3" ng-maxlength="20" ensure-unique="username" required />
+                <div class="error" ng-show="submit_form.username.$dirty && submit_form.username.$invalid">
+                <small class="error" ng-show="submit_form.username.$error.required">请输入用户名</small>
+                <small class="error" ng-show="submit_form.username.$error.minlength"> 用户名不能小于3位</small>
+                <small class="error" ng-show="submit_form.username.$error.maxlength">用户名不能超过20位</small>
+                <small class="error" ng-show="submit_form.username.$error.unique">用户名已存在</small>
+                </div>
+                </div>
+            <div>
+                <!--ng-disabled="submit_form.$invalid"未验证通过按钮失效-->
+                <button type="submit" class="button radius" ng-disabled="submit_form.$invalid">Submit</button>
+            </div>
+        </div>
+        </fieldset>
+    </form>
+<script type="text/javascript">
+/*
+AngularJS允许我们使用angular.module()方法来声明/引用模块
+这个方法接受两个参数时，创建模块，第一个是模块的名称，第二个是依赖列表，也就是可以被注入到模块中的对象列表。
+接受一个参数时，引用模块，参数为模块名称
+*/
+//定义了一个叫myApp的模块，不依赖任何对象
+angular.module('myApp', []);
+//引用myApp模块
+var myApp = angular.module('myApp');
+
+myApp.controller('submitController', function ($scope) {
+    $scope.submitForm = function () {
+    }
+});
+
+//自定义unique验证规则
+myApp.directive('ensureUnique', function ($http) {
+    return {
+        require: 'ngModel',
+        link: function (scope, ele, attrs, c) {
+            scope.$watch(attrs.ngModel, function (n) {
+                if (!n) return;
+                /**
+                //Ajax请求
+                //当表单内容通过验证后，会向/api/check/username发送一个POST请求来验证用户名是否可用。
+                $http({
+                    method: 'POST',
+                    url: '/api/check/' + attrs.ensureUnique,
+                    data: {
+                        field: attrs.ensureUnique,
+                        value: scope.ngModel
+                    }
+                }).success(function (data) {
+                    c.$setValidity('unique', data.isUnique);
+                }).error(function (data) {
+                    c.$setValidity('unique', false);
+                });
+                **/
+
+                if (scope.user.username == "abc")
+                    c.$setValidity('unique', false);
+                else
+                    c.$setValidity('unique', true);
+            });
+        }
+    };
+});
+</script>
+</body>
+</html>

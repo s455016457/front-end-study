@@ -1,0 +1,33 @@
+<!DOCTYPE HTML>
+<html>
+<body>
+    <script src="JavaScript/BaseObject.js"></script>
+    <script src="JavaScript/Battlefield.js"></script>
+    <script src="JavaScript/Aircraft.js"></script>
+    <script src="JavaScript/Bullet.js"></script>
+    <script src="JavaScript/Enemy.js"></script>
+    <script src="JavaScript/GameConfig.js"></script>
+    <script type="text/javascript">
+
+    </script>
+    <header>
+        <meta http-equiv="Content-Type" content="text/html; charset=gb2312" />
+    </header>
+
+<script type="text/javascript">
+    (function () {
+        var context = document.getElementsByTagName("body")[0];
+        var body = {
+            context: context
+            , coordinate: { x: context.clientLeft, y: context.clientTop }
+            , width: context.clientWidth
+            , heigth: context.clientHeight
+        }
+        var battlefield = new Battlefield(body, { width: 600, height: 900, coordinate: { x: (context.clientWidth - 600) / 2, y: 20 } });
+
+
+    }());
+</script>
+
+</body>
+</html>

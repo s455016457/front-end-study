@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>手动解析表达式</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<script src="angular.js\angular.js">
+</script>
+</head>
+<body ng-app="myApp">
+<div ng-controller="MessageController">
+	<div>
+		<label for="UID">UserName:</label>
+		<input type="text" id="UID" ng-model="model.UID" placeholder="UserName"/>
+	</div>
+	<div>
+		<label for="PWD">Password:</label>
+		<input type="Password" id="PWD" ng-model="model.PWD" placeholder="Password"/>
+	</div>
+	<div>
+		<input ng-model="model.email" type="email" placeholder="email" />
+		<br/>
+		<pre>
+		<textarea ng-model="model.emailBody" style="height: 223px; width: 305px"></textarea>
+		</pre>
+	</div>
+	<hr/>
+	<div>
+		UserName is:[model.UID]
+	</div>
+	<div>
+		parseValue is:[parseValue]
+	</div>
+	<div>
+		[previewText]
+	</div>
+</div>
+<script type="text/javascript">
+/*
+AngularJS允许我们使用angular.module()方法来声明/引用模块
+这个方法接受两个参数时，创建模块，第一个是模块的名称，第二个是依赖列表，也就是可以被注入到模块中的对象列表。
+接受一个参数时，引用模块，参数为模块名称
+*/
+//定义了一个叫myApp的模块，不依赖任何对象
+angular.module('myApp', []);
+//引用myApp模块
+var myApp=angular.module('myApp');
+
+//设置myApp模块中表达式的标示符
+myApp.config(['$interpolateProvider', function($interpolateProvider) {
+	$interpolateProvider.startSymbol('[');
+	$interpolateProvider.endSymbol(']');
+}]);
+
+myApp.controller('MessageController',function ($scope,$parse,$interpolate) {
+	$scope.model={signature:"石鹏飞"};
+	$scope.$watch('model.UID',function(newVal,oldVal,scope){
+		if (newVal !== oldVal) {
+			/**
+				这种写法是什么意思？
+			**/
+			// 用该表达式设置parseFun
+			var parseFun = $parse(newVal);
+			// 获取经过解析后表达式的值
+			$scope.parseValue = parseFun(scope);
+		}
+	});
+	$scope.$watch('model.PWD',function(newVal,oldVal,scope){
+		if (newVal !== oldVal) {
+			$scope.parseValue = newVal;
+		}
+	});
+	
+	$scope.$watch('model.email',function(newVal,oldVal,scope){
+		if (newVal !== oldVal) {
+			
+		}
+	});
+	
+	$scope.$watch('model.emailBody',function(body){
+		if(body){
+			//篡改body中表达式的值
+			var template=$interpolate(body);
+			$scope.model.emailBody=template({to:$scope.model.email,signature:$scope.model.signature});
+			$scope.previewText=$scope.model.emailBody;
+		}
+	});
+});
+</script>
+</body>
+</html>

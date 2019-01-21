@@ -1,0 +1,262 @@
+<html>
+<head>
+    <title>Table学习</title>
+    <style>
+        div {
+            padding-bottom: 5px;
+            padding-top: 5px;
+            padding-left: 10px;
+            padding-right: 10px;
+        }
+
+        code {
+            color: darkblue;
+        }
+
+        a {
+            text-decoration: none; /*设置为不显示下划线*/
+        }
+
+        table {
+            border-collapse: collapse;
+            border: 2px solid rgb(200,200,200);
+            letter-spacing: 1px;
+            font-size: 0.8rem;
+        }
+
+            table caption {
+                text-align: center;
+                font-size: 1.1rem;
+            }
+
+            table tr td, th {
+                border: 1px solid rgb(190,190,190);
+                text-align: center;
+                padding: 10px;
+                display: table-cell;
+                vertical-align: inherit;
+            }
+    </style>
+    <style>
+        table .column1 {
+            background-color: gray;
+        }
+        table .column2 {
+            background-color: greenyellow;
+        }
+        table .column3 {
+            background-color: green;
+        }
+        table .column4 {
+            background-color: gold;
+        }
+        table .column5 {
+            background-color: goldenrod;
+        }
+        table .column6 {
+            background-color: darkorange;
+        }
+        table .column7, .column8 {
+            background-color: limegreen;
+        }
+
+        table .column7 {
+            border: 3px solid;
+            border-color: orangered;
+        }
+    </style>
+</head>
+<body>
+    <div>
+        <dl>
+            <dt>
+                <a href="https://developer.mozilla.org/zh-CN/docs/Web/HTML/Element/colgroup" target="_blank"><code>&lt;colgroup&gt;</code></a><!-- a标签 target设置为在新窗口打开链接 -->
+                <a href="https://developer.mozilla.org/zh-CN/docs/Web/HTML/Element/col" target="_blank"><code>&lt;col&gt;</code></a>
+            </dt>
+            <dd> 为表格中的列提供共同的样式。</dd>
+            <dt>
+                <a href="https://developer.mozilla.org/zh-CN/docs/Web/HTML/Element/caption" target="_blank"><code>&lt;caption&gt;</code></a>
+            </dt>
+            <dd>为表格添加一个标题</dd>
+        </dl>
+        <table>
+            <caption><h1>课程表</h1></caption>
+            <colgroup>
+                <col class="column1" />
+                <col class="column2" />
+                <col class="column3" />
+                <col class="column4" />
+                <col class="column5" />
+                <col class="column6" />
+                <col class="column7" />
+                <col class="column8" />
+            </colgroup>
+            <tr>
+                <th>&nbsp;</th>
+                <th>星期一</th>
+                <th>星期二</th>
+                <th>星期三</th>
+                <th>星期四</th>
+                <th>星期五</th>
+                <th>星期六</th>
+                <th>星期天</th>
+            </tr>
+            <tr>
+                <th>第一节课</th>
+                <td>英语</td>
+                <td>语文</td>
+                <td>历史</td>
+                <td>英语</td>
+                <td>语文</td>
+                <td>政治</td>
+                <td></td>
+            </tr>
+            <tr>
+                <th>第二节课</th>
+                <td>语文</td>
+                <td>英语</td>
+                <td>生物</td>
+                <td>物理</td>
+                <td>化学</td>
+                <td>数学</td>
+                <td></td>
+            </tr>
+            <tr>
+                <th>第三节课</th>
+                <td>数学</td>
+                <td>数学</td>
+                <td>音乐</td>
+                <td>物理</td>
+                <td>化学</td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <th>第四节课</th>
+                <td>数学</td>
+                <td>体育</td>
+                <td>数学</td>
+                <td>物理</td>
+                <td>化学</td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <th>第五节课</th>
+                <td>数学</td>
+                <td>美术</td>
+                <td>数学</td>
+                <td>物理</td>
+                <td>化学</td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <th>第六节课</th>
+                <td>数学</td>
+                <td>美术</td>
+                <td>数学</td>
+                <td>物理</td>
+                <td>历史</td>
+                <td></td>
+                <td></td>
+            </tr>
+        </table>
+    </div>
+    <div>
+        <table>
+            <caption><h1>课程表</h1></caption>
+            <colgroup>
+                <col class="column1" />
+                <col class="column2" />
+                <col class="column3" />
+                <col class="column4" />
+                <col class="column5" />
+                <col class="column6" />
+                <col class="column7" />
+                <col class="column8" />
+            </colgroup>
+            <thead>
+                <tr>
+                    <th>&nbsp;</th>
+                    <th>星期一</th>
+                    <th>星期二</th>
+                    <th>星期三</th>
+                    <th>星期四</th>
+                    <th>星期五</th>
+                    <th>星期六</th>
+                    <th>星期天</th>
+                </tr>
+            </thead><!-- 表头 -->
+            <tbody>
+                <tr>
+                    <th>第一节课</th>
+                    <td>英语</td>
+                    <td>语文</td>
+                    <td>历史</td>
+                    <td>英语</td>
+                    <td>语文</td>
+                    <td>政治</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <th>第二节课</th>
+                    <td>语文</td>
+                    <td>英语</td>
+                    <td>生物</td>
+                    <td>物理</td>
+                    <td>化学</td>
+                    <td>数学</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <th>第三节课</th>
+                    <td>数学</td>
+                    <td>数学</td>
+                    <td>音乐</td>
+                    <td>物理</td>
+                    <td>化学</td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <th>第四节课</th>
+                    <td>数学</td>
+                    <td>体育</td>
+                    <td>数学</td>
+                    <td>物理</td>
+                    <td>化学</td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <th>第五节课</th>
+                    <td>数学</td>
+                    <td>美术</td>
+                    <td>数学</td>
+                    <td>物理</td>
+                    <td>化学</td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <th>第六节课</th>
+                    <td>数学</td>
+                    <td>美术</td>
+                    <td>数学</td>
+                    <td>物理</td>
+                    <td>历史</td>
+                    <td></td>
+                    <td></td>
+                </tr>
+            </tbody><!-- 正文 -->
+            <tfoot>
+                <tr>
+                    <th colspan="7">合计课数</th>
+                    <td>32</td>
+                </tr>
+            </tfoot><!-- 页脚 -->
+        </table>
+    </div>
+</body>
+</html>

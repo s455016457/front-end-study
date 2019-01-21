@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>模块引用</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<script src="angular.js\angular.js">
+</script>
+</head>
+<body ng-app="myApp">
+<div ng-controller="MyController">
+	<div>
+		<label for="Email">Email:</label>
+		<input type="text" id="Email" ng-model="model.Email" placeholder="Email"/>
+	</div>
+	<div>
+		<textarea id="emailBody" ng-model="model.emailBody" placeholder="正文" style="height: 223px; width: 305px"></textarea>
+	</div>
+	<hr/>
+	<div>
+		<pre>[previewText]</pre>
+	</div>
+</div>
+<script type="text/javascript">
+/*
+AngularJS允许我们使用angular.module()方法来声明/引用模块
+这个方法接受两个参数时，创建模块，第一个是模块的名称，第二个是依赖列表，也就是可以被注入到模块中的对象列表。
+接受一个参数时，引用模块，参数为模块名称
+*/
+//定义了一个叫myApp的模块，依赖emailParser模块
+angular.module('myApp', ['emailParser']);
+//引用myApp模块
+var myApp=angular.module('myApp');
+//创建控制器，引用EmailParser
+myApp.controller('MyController',['$scope','EmailParser',function($scope,EmailParser){
+	// 设置监听
+	$scope.$watch('model.emailBody', function(body) {
+		if (body) {
+			$scope.model.emailBody = EmailParser.parse(body, {
+				to: $scope.model.Email
+			});
+			
+			$scope.previewText = $scope.model.emailBody;
+		}
+	});
+}]);
+
+//创建emailParser模块
+angular.module('emailParser',[])
+//配置模块中表达式的标示符
+.config(['$interpolateProvider',function($interpolateProvider){
+	$interpolateProvider.startSymbol("[");
+	$interpolateProvider.endSymbol("]");
+}])
+//在模块中创建篡改器
+.factory("EmailParser",["$interpolate",function($interpolate){
+	return {
+		parse:function(text,context){
+			var template=$interpolate(text);
+			return template(context);
+		}
+	};
+}]);
+
+</script>
+</body>
+</html>

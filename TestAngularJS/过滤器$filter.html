@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>过滤器</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<script src="angular.js\angular.js">
+</script>
+</head>
+<body ng-app="myApp">
+<div ng-controller="filterController">
+	<div>
+		<input type="text" ng-model="data.upPercase" placeholder="大写格式化"/>
+		<input type="text" ng-model="data.lowercase" placeholder="小写格式化"/>
+		<input type="text" ng-model="data.number" placeholder="数字保留两位小数位"/>
+	</div>
+	<hr/>
+	<div>
+		<input type="text" ng-model="data.value" placeholder="过滤效果"/>
+	</div>
+<div>
+
+<script type="text/javascript">
+/*
+AngularJS允许我们使用angular.module()方法来声明/引用模块
+这个方法接受两个参数时，创建模块，第一个是模块的名称，第二个是依赖列表，也就是可以被注入到模块中的对象列表。
+接受一个参数时，引用模块，参数为模块名称
+*/
+//定义了一个叫myApp的模块，不依赖任何对象
+angular.module('myApp', []);
+//引用myApp模块
+var myApp=angular.module('myApp');
+
+myApp.controller('filterController',['$scope','$filter',function($scope,$filter){
+	$scope.data={};
+	$scope.$watch('data.upPercase',function(newval,oldval){
+		if(newval!==oldval)
+			$scope.data.value=$filter('uppercase')(newval);
+	});
+	$scope.$watch('data.lowercase',function(newval,oldval){
+		if(newval!==oldval)
+			$scope.data.value=$filter('lowercase')(newval);
+	});
+	$scope.$watch('data.number',function(newval,oldval){
+		if(newval!==oldval)
+			$scope.data.value=$filter('number')(newval);
+	});
+}]);
+</script>
+</body>
+</html>

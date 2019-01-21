@@ -1,0 +1,200 @@
+<html>
+<head>
+    <title>Table 行星数据表格</title>
+    <style>
+        div {
+            padding:5px;
+        }
+        table {
+            width:100%;
+            border:solid 2px rgb(200,200,200);
+            border-collapse:collapse;
+            letter-spacing:1px;
+            font-size:0.95rem;
+        }
+            table th {
+                background-color: rgb(235,235,235);
+                padding: 10px 20px;
+            }
+            table tr td, th {
+                border: solid 1px rgb(190,190,190);
+                text-align: center;
+            }
+            table tr:nth-child(2n+1) {
+                background-color: rgb(245,245,245);
+            }
+            table tr:nth-child(2n+2) {
+                background-color: rgb(250,250,250);
+            }
+    </style>
+    <style>
+        
+        .column1, .column2, .column3, .column4, .column5, .column6, .column7, .column8, .column9, .column10, .column11 {
+            width: 110px
+        }
+        
+        .column3 {
+            border: solid 2px rgb(10, 10, 10)
+        }
+    </style>
+</head>
+<body>
+    <div>
+        <table>
+            <caption>关于我们太阳系行星的数据(数据来自
+                <a href="http://nssdc.gsfc.nasa.gov/planetary/factsheet/">Nasa的行星事实表-度规</a>
+            )</caption>
+            <colgroup>
+                <col class="column1" />
+                <col class="column2" />
+                <col class="column3" />
+                <col class="column4" />
+                <col class="column5" />
+                <col class="column6" />
+                <col class="column7" />
+                <col class="column8" />
+                <col class="column9" />
+                <col class="column10" />
+                <col class="column11" />
+                <col class="column12" />
+            </colgroup>
+            <thead>
+                <tr>
+                    <th colspan="2"></th>
+                    <th title="Name">名称</th>
+                    <th title="Mass">质量(10<sup>24</sup>kg)</th>
+                    <th title="Diameter">直径(km)</th>
+                    <th title="Density">密度(kg/m<sup>3</sup>)</th>
+                    <th title="Gravity">重力(m/s<sup>2</sup>)</th>
+                    <th title="Length of day">日长(小时)</th>
+                    <th title="Distance from Sun">离日距离(10<sup>6)</sup>km)</th>
+                    <th title="Mean temperature">平均温度(°C)</th>
+                    <th title="Number of Moons">卫星数量</th>
+                    <th title="Notes">说明</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <th rowspan="4" colspan="2" title="Terrestial planets">类地行星</th>
+                    <th title="Mercury">水星</th>
+                    <td title="0.330">0.330</td>
+                    <td title="4,879">4,879</td>
+                    <td title="5427">5427</td>
+                    <td title="3.7">3.7</td>
+                    <td title="4222.6">4222.6</td>
+                    <td title="57.9">57.9</td>
+                    <td title="167">167</td>
+                    <td title="0">0</td>
+                    <td title="Closest to the Sun">最接近太阳</td>
+                </tr>
+                <tr>
+                    <th title="Venus">金星</th>
+                    <td title="4.87">4.87</td>
+                    <td title="12,104">12,104</td>
+                    <td title="5243">5243</td>
+                    <td title="8.9">8.9</td>
+                    <td title="2802.0">2802.0</td>
+                    <td title="108.2">108.2</td>
+                    <td title="464">464</td>
+                    <td title="0">0</td>
+                    <td title=""></td>
+                </tr>
+                <tr>
+                    <th title="Earth">地球</th>
+                    <td title="5.97">5.97</td>
+                    <td title="12,756">12,756</td>
+                    <td title="5514">5514</td>
+                    <td title="9.8">9.8</td>
+                    <td title="24">24</td>
+                    <td title="149.6">149.6</td>
+                    <td title="15">15</td>
+                    <td title="1">1</td>
+                    <td title="Our world">我们的世界</td>
+                </tr>
+                <tr>
+                    <th title="Mars">火星</th>
+                    <td title="0.642">0.642</td>
+                    <td title="6,792">6,792</td>
+                    <td title="3933">3933</td>
+                    <td title="3.7">3.7</td>
+                    <td title="24.7">24.7</td>
+                    <td title="227.9">227.9</td>
+                    <td title="-65">-65</td>
+                    <td title="2">2</td>
+                    <td title="The red planet">是一颗红色星球</td>
+                </tr>
+                <tr>
+                    <th rowspan="4" title="Jovian plantes">类目行星</th>
+                    <th rowspan="2" title="Gas giants">气体巨星</th>
+                    <th title="Jupiter">木星</th>
+                    <td title="1989">1898</td>
+                    <td title="142,984">142,984</td>
+                    <td title="1326">1326</td>
+                    <td title="23.1">23.1</td>
+                    <td title="9.9">9.9</td>
+                    <td title="778.6">778.6</td>
+                    <td title="-110">-110</td>
+                    <td title="-67">-67</td>
+                    <td title="The largest planet">最大行星</td>
+                </tr>
+                <tr>
+                    <th title="Saturn">土星</th>
+                    <td title="568">568</td>
+                    <td title="120,536">120,536</td>
+                    <td title="687">687</td>
+                    <td title="9.0">9.0</td>
+                    <td title="10.7">10.7</td>
+                    <td title="1433.5">1433.5</td>
+                    <td title="-140">-140</td>
+                    <td title="62">62</td>
+                    <td title=""></td>
+                </tr>
+                <tr>
+                    <th rowspan="2" title="Ice giants">冰巨人</th>
+                    <th title="Uranus"> 天王星</th>
+                    <td title="86.8">86.8</td>
+                    <td title="51,118">51,118</td>
+                    <td title="1271">1271</td>
+                    <td title="8.7">8.7</td>
+                    <td title="17.2">17.2</td>
+                    <td title="2872.5">2872.5</td>
+                    <td title="-195">-195</td>
+                    <td title="27">27</td>
+                    <td title=""></td>
+                </tr>
+                <tr>
+                    <th title="Neputune">海王星</th>
+                    <td title="102">102</td>
+                    <td title="49,528">49,528</td>
+                    <td title="1638">1638</td>
+                    <td title="11.0">11.0</td>
+                    <td title="16.1">16.1</td>
+                    <td title="4495.1">4495.1</td>
+                    <td title="-200">-200</td>
+                    <td title="14">14</td>
+                    <td title=""></td>
+                </tr>
+                <tr>
+                    <th colspan="2" title="Dwarf planets">矮行星</th>
+                    <th title="Pluto">冥王星</th>
+                    <td title="0.0146">0.0146</td>
+                    <td title="2,370">2,370</td>
+                    <td title="2095">2095</td>
+                    <td title="0.7">0.7</td>
+                    <td title="153.3">153.3</td>
+                    <td title="5906.4">5906.4</td>
+                    <td title="-225">-225</td>
+                    <td title="5">5</td>
+                    <td title="Declassified as a planet in 2006,but this remains controversial.">
+                        2006年被解密为一颗行星，但这
+                        <a href="https://www.usatoday.com/story/tech/2014/10/02/pluto-planet-solar-system/16578959/">
+                            仍存在争议
+                        </a>
+                        。
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>

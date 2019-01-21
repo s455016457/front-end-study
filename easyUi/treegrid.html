@@ -1,0 +1,87 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>表单验证</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
+    <link href="F:\MyProjects\study\easyUi\jquery-easyui-1.4.3\themes\icon.css" rel="stylesheet" />
+    <link href="F:\MyProjects\study\easyUi\jquery-easyui-1.4.3\themes\default\easyui.css" rel="stylesheet" />
+    <script src="F:\MyProjects\study\easyUi\jquery-easyui-1.4.3\jquery.min.js"></script>
+    <script src="F:\MyProjects\study\easyUi\jquery-easyui-1.4.3\jquery.easyui.min.js"></script>
+    <script src="F:\MyProjects\study\easyUi\jquery-easyui-1.4.3\locale\easyui-lang-zh_CN.js"></script>
+    <script type="text/javascript">
+        ///js智能提示
+        /// <reference path=""F:\MyProjects\study\easyUi\jquery-easyui-1.4.3\jquery.min.js"/>
+        /// <reference path="F:\MyProjects\study\easyUi\jquery-easyui-1.4.3\jquery.easyui.min.js"/>
+
+        $.extend($.fn.treegrid.methods, {
+            editCell: function (jq, param) {
+                return jq.each(function () {
+                    var opts = $(this).treegrid('options');
+                    var fields = $(this).treegrid('getColumnFields', true).concat($(this).treegrid('getColumnFields'));
+                    for (var i = 0; i < fields.length; i++) {
+                        var col = $(this).treegrid('getColumnOption', fields[i]);
+                        col.editor1 = col.editor;
+                        if (fields[i] != param.field) {
+                            col.editor = null;
+                        }
+                    }
+                    $(this).treegrid('beginEdit', param.editId);
+                    for (var i = 0; i < fields.length; i++) {
+                        var col = $(this).treegrid('getColumnOption', fields[i]);
+                        col.editor = col.editor1;
+                    }
+                });
+            }
+        });
+
+        $(function () {
+            $("#dt").treegrid({
+                url: 'treegrid_data1.json',
+                method: 'get',
+                rownumbers: true,
+                idField: 'id',
+                treeField: 'name',
+                loadMsg: '数据加载中。。。',
+                onClickCell: function (field, row) {
+                    onClickTreeGridCell(row.id, field);
+                }
+            })
+
+
+            var editId = undefined;
+            function endEditing() {
+                if (editId == undefined) { return true }
+                if ($('#dt').treegrid('find', editId)) {
+                    $('#dt').treegrid('endEdit', editId);
+                    editId = undefined;
+                    return true;
+                } else {
+                    return false;
+                }
+            }
+            function onClickTreeGridCell(id, field) {
+                if (endEditing()) {
+                    $('#dt').treegrid('select', id)
+                            .treegrid('editCell', { editId: id, field: field });
+                    editId = id;
+                }
+            }
+        });
+    </script>
+
+</head>
+<body>
+    <form>
+        <table id="dt" style="width: 700px; height: 250px">
+            <thead>
+                <tr>
+                    <th data-options="field:'name',editor:'text'" width="220">Name</th>
+                    <th data-options="field:'size',editor:'numberbox'" width="100" align="right">Size</th>
+                    <th data-options="field:'date',editor:'datebox'" width="150">Modified Date</th>
+                </tr>
+            </thead>
+        </table>
+    </form>
+</body>
+</html>

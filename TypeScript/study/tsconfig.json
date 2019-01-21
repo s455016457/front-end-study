@@ -1,0 +1,13 @@
+{
+    "compilerOptions": {
+        "module": "amd",
+        "noImplicitAny": true,
+        "removeComments": false,
+        "preserveConstEnums": true,
+		"outFile": "main.js",
+        "sourceMap": true
+    },
+    "include": [
+        "*.ts"
+    ]
+}
