@@ -1,0 +1,45 @@
+﻿<html>
+<head>
+    <title>登录</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="referrer" content="origin" />
+    <meta http-equiv="Cache-Control" content="no-transform" />
+    <meta http-equiv="Cache-Control" content="no-siteapp" />
+
+    <link type="text/css" rel="stylesheet" href="Style.css" />
+    <link type="text/css" rel="stylesheet" href="fontawesome-free-5.9.0-web/css/all.css" />
+    <script type="text/javascript" src="Scripts/jquery-3.4.1.js"></script>
+    <!--<script src="https://kit.fontawesome.com/dcbeca73b9.js"></script>-->
+</head>
+<body>
+
+    <div class="show-login-btn"><i class="fas fa-sign-in-alt"></i><span>显示登录窗口</span></div>
+
+    <div class="login-box">
+        <div class="hide-login-btn"><i class="fas fa-times"></i></div>
+        <form class="login-form">
+            <h1>请登录</h1>
+            <div class="input-box">
+                <input class="txtb" type="text" name="" placeholder="用户名" />
+                <i class="far fa-user"></i>
+            </div>
+            <div class="input-box">
+                <input class="txtb" type="password" name="" placeholder="密码" />
+                <i class="fas fa-lock"></i>
+            </div>
+            <input class="login-btn" type="submit" value="登录" />
+        </form>
+    </div>
+    <script type="text/javascript">
+        $(function () {
+            $(".show-login-btn").on("click", function () {
+                $(".login-box").toggleClass("showed");
+            });
+            $(".hide-login-btn").on("click", function () {
+                $(".login-box").toggleClass("showed");
+            });
+        });
+    </script>
+</body>
+</html>

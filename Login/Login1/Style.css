@@ -26,7 +26,7 @@ body {
         详情：http://www.w3school.com.cn/cssref/pr_box-sizing.asp
     */
     box-shadow: 0 15px 25px rgba(0, 0, 0,.5); /*设置阴影*/
-    border-radius: 10px; /*该属性允许您为元素添加圆角边框*/border
+    border-radius: 10px; /*该属性允许您为元素添加圆角边框*/
 }
 
     .loginBox .title h2 {
