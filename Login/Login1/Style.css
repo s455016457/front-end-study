@@ -1,0 +1,87 @@
+body {
+    margin: 0;
+    padding: 0;
+    font-family: sans-serif; /**设置字体  详情：http://www.w3school.com.cn/css/css_font-family.asp*/
+    background-image:url("images/blg.jpg");
+    background-size: cover; /*规定背景图像的尺寸*/
+}
+
+.loginBox {
+    position: absolute; /*position 属性规定元素的定位类型  
+        absolute 生成绝对定位的元素，相对于 static 定位以外的第一个父元素进行定位。
+        fixed  生成绝对定位的元素，相对于浏览器窗口进行定位。
+        relative    生成相对定位的元素，相对于其正常位置进行定位。
+        static  默认值。没有定位，元素出现在正常的流中（忽略 top, bottom, left, right 或者 z-index 声明）。
+        inherit 规定应该从父元素继承 position 属性的值。
+    */
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%); /*transform 属性向元素应用 2D 或 3D 转换。该属性允许我们对元素进行旋转、缩放、移动或倾斜。
+        详情：http://www.w3school.com.cn/cssref/pr_transform.asp
+    */
+    width: 400px;
+    padding: 40px;
+    background-color: rgba(0,0,0,.8);
+    box-sizing: border-box; /*box-sizing 属性允许您以特定的方式定义匹配某个区域的特定元素。
+        详情：http://www.w3school.com.cn/cssref/pr_box-sizing.asp
+    */
+    box-shadow: 0 15px 25px rgba(0, 0, 0,.5); /*设置阴影*/
+    border-radius: 10px; /*该属性允许您为元素添加圆角边框*/border
+}
+
+    .loginBox .title h2 {
+        margin: 0 0 30px;
+        padding: 0;
+        color: #fff;
+        text-align: center; /*设置文字居中*/
+    }
+
+    .loginBox .inputBox{
+        position:relative;
+    }
+        .loginBox .inputBox input {
+            width: 100%;
+            padding: 10px 0;
+            font-size: 16px;
+            color: #fff;
+            letter-spacing: 1px; /* 属性增加或减少字符间的空白（字符间距）*/
+            margin-bottom: 30px;
+            border: none; /* 设置去除所有边框 */
+            border-bottom: 1px solid #fff; /*设置下边框的属性*/
+            outline: none; /*（轮廓）是绘制于元素周围的一条线，位于边框边缘的外围，可起到突出元素的作用。*/
+            background: transparent; /*transparent属性用来指定全透明色彩*/
+        }
+        .loginBox .inputBox label {
+            position: absolute;
+            top: 0;
+            left: 0;
+            padding: 10px 0;
+            font-size: 16px;
+            color: #fff;
+            letter-spacing: 1;
+            pointer-events: none; /* 属性指定在什么情况下 (如果有) 某个特定的图形元素可以成为鼠标事件的 target。*/
+            transition: .5s; /*过渡可以为一个元素在不同状态之间切换的时候定义不同的过渡效果。比如在不同的伪元素之间切换，像是 :hover，:active 或者通过 JavaScript 实现的状态变化。
+                详情：https://developer.mozilla.org/zh-CN/docs/Web/CSS/transition
+            */
+        }
+        .loginBox .inputBox input:focus~label{
+            top:-18px;
+            left:0;
+            color:#03a9f4;
+            font-size:12px;
+        }
+        .loginBox .inputBox input:valid ~ label {
+            top: -18px;
+            left: 0;
+            color: #03a9f4;
+            font-size: 12px;
+        }
+    .loginBox input[type="submit"] {
+        background: transparent;    /*背景设置透明*/
+        border: none;
+        outline: none;
+        background: #03a9f4;
+        padding:10px 20px;
+        cursor:pointer;
+        border-radius:5px;
+    }
