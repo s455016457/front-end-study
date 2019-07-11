@@ -1,0 +1,178 @@
+﻿@{
+                /**/
+
+                /**/
+
+                ViewBag.Title = "Ag-Grid Hello World";
+}
+<h2>@ViewBag.Title.</h2>
+<h3>@ViewBag.Message</h3>
+<script src="~/Scripts/ag-grid/ag-grid-enterprise.js"></script>
+@*<script src="~/Scripts/ag-grid/ag-grid-community.js"></script>*@
+<link href="~/Scripts/ag-grid/styles/compiled-icons.css" rel="stylesheet" />
+<link href="~/Scripts/ag-grid/styles/ag-grid.css" rel="stylesheet" />
+<link href="~/Scripts/ag-grid/styles/ag-theme-blue.css" rel="stylesheet" />
+排序
+<button onclick="getSelectedRows()">获取选择的数据</button>
+
+<button onclick="groupByAthleteAsc()">根据运动员升序</button>
+<button onclick="groupByAthleteDesc()">根据运动员降序</button>
+
+<button onclick="groupByCountryAsc()">根据国家升序</button>
+<button onclick="groupByCountryDesc()">根据国家降序</button>
+
+<button onclick="groupByGoldAndAthleteAsc()">根据金牌和运动员升序</button>
+<button onclick="groupByGoldAndAthleteDesc()">根据金牌和运动员降序</button>
+<div id="myGrid" style="height: 600px;width:100%;" class="ag-theme-balham"></div>
+
+<script type="text/javascript" charset="utf-8">
+    "use strict";
+    // 定义列
+    /**
+     * headerName 列头显示名称
+     * field 对应数据列名称
+     * sortable 启用排序
+     * filter 启用过滤器
+     * checkboxSelection 设置列CheckBox选择器
+     * */
+    var columnDefs = [
+        { headerName: "运动员", field: "athlete", width: 150, checkboxSelection: true, sortingOrder: ['asc', 'desc'] },    // 上升 - >下降
+        { headerName: "年龄", field: "age", width: 90 },
+        { headerName: "国家", field: "country", width: 120, sortingOrder: ['asc', null] },         // 上升 - >无排序
+        { headerName: "年份", field: "year", width: 90, unSortIcon: true },
+        { headerName: "日期", field: "date", width: 110, comparator: dateComparator },
+        { headerName: "运动项目", field: "sport", width: 110 },
+        { headerName: "金牌数量", field: "gold", width: 100 },
+        { headerName: "银牌数量", field: "silver", width: 100 },
+        { headerName: "铜牌数量", field: "bronze", width: 100 },
+        { headerName: "合计奖牌数量", field: "total", width: 100 }
+    ];
+
+    /**
+     * 日期比较表达式
+     *
+     **/
+    function dateComparator(date1, date2) {
+        var date1Number = monthToComparableNumber(date1);
+        var date2Number = monthToComparableNumber(date2);
+
+        if (date1Number === null && date2Number === null)
+            return 0;
+        if (date1Number === null) return -1;
+        if (date2Number === null) return 1;
+
+        return date2Number - date1Number;
+    }
+
+    function monthToComparableNumber(date) {
+        if (date === undefined || date === null || date.length !== 10) {
+            return null;
+        }
+        var yearNumber = date.substring(6, 10);
+        var monthNumber = date.substring(3, 5);
+        var dayNumber = date.substring(0, 2);
+
+        var result = (yearNumber * 10000) + (monthNumber * 100) + dayNumber;
+        return result;
+    }
+
+    // 定义grid属性，grid有哪些列和数据
+    /**
+     * rowSelection: 'multiple' 设置允许多选
+     * */
+    var gridOptions = {
+        columnDefs: columnDefs,
+        rowSelection: 'multiple',
+        defaultColDef: {    //设置列默认属性
+            filter: true,
+            sortable: true
+        },
+        multiSortKey: 'ctrl',   //设置多列排序键为Ctrl
+        onGridReady: function (params) {    //当grid准备好时默认排序字段
+            var defaultSortModel = [
+                { colId: "country", sort: "asc" },
+                { colId: "athlete", sort: "asc" }
+            ];
+            params.api.setSortModel(defaultSortModel);
+        },
+        animateRows: true,       // 启用排序动画
+        sortingOrder: ['desc', 'asc', null],        //默认排序 ：降序 - >升序 - >无排序
+        rowData: null,
+        postSort(rowNodes) {        //发布排序 如果您需要对已排序的行进行额外控制，也可以执行一些后期排序。
+
+            // 排序时，把 Li Xiaoxia 始终放在最上面
+            function isChina(node) {
+                return node.data.country === "China";
+            }
+
+            function isLiXiaoxia(node) {
+                return node.data.athlete === "Li Xiaoxia";
+            }
+
+            function move(toIndex, fromIndex) {
+                rowNodes.splice(toIndex, 0, rowNodes.splice(fromIndex, 1)[0]);
+            }
+
+            var nextInsertPos = 0;
+            for (var i = 0; i < rowNodes.length; i++) {
+                if (isLiXiaoxia(rowNodes[i])) {
+                    move(nextInsertPos, i)
+                    nextInsertPos++;
+                }
+            }
+        }
+    };
+
+    // 获取标签元素
+    var eGridDiv = document.querySelector('#myGrid');
+
+    // 使用传入的Div和列、数据创建grid
+    new agGrid.Grid(eGridDiv, gridOptions);
+
+    // 获取远程数据
+    fetch("/Json/Data1.json").then(function (response) {
+        console.log(response);
+        // 将相应数据转成Json
+        return response.json();
+    }).then(function (data) {
+        // 设置grid的RowData
+        gridOptions.api.setRowData(data);
+    });
+
+    function getSelectedRows() {
+        var selectedNodes = gridOptions.api.getSelectedRows();
+        console.log(selectedNodes);
+
+        var selectDataScringPresentatin = selectedNodes.map(function (node) {
+            console.log(node);
+            return node.athlete + ' ' + node.country;
+        }).join(';');
+        alert('Selected nodes: ' + selectDataScringPresentatin);
+    }
+
+    function groupByAthleteAsc() {
+        gridOptions.api.setSortModel([{ colId: 'athlete', sort: 'asc' }]);
+    }
+    function groupByAthleteDesc() {
+        gridOptions.api.setSortModel([{ colId: 'athlete', sort: 'desc' }]);
+    }
+    function groupByCountryAsc() {
+        gridOptions.api.setSortModel([{ colId: 'country', sort: 'asc' }]);
+    }
+    function groupByCountryDesc() {
+        gridOptions.api.setSortModel([{ colId: 'country', sort: 'desc' }]);
+    }
+    function groupByGoldAndAthleteAsc() {
+        gridOptions.api.setSortModel([
+            { colId: 'gold', sort: 'asc' },
+            { colId: 'athlete', sort: 'asc' }
+        ]);
+    }
+    function groupByGoldAndAthleteDesc() {
+        gridOptions.api.setSortModel([
+            { colId: 'gold', sort: 'desc' },
+            { colId: 'athlete', sort: 'desc' }
+        ]);
+    }
+
+</script>

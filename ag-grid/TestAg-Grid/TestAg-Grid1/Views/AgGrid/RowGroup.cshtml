@@ -1,0 +1,79 @@
+﻿@{
+    ViewBag.Title = "Ag-Grid Hello World";
+}
+<h2>@ViewBag.Title.</h2>
+<h3>@ViewBag.Message</h3>
+<script src="~/Scripts/ag-grid/ag-grid-enterprise.js"></script>
+@*<script src="~/Scripts/ag-grid/ag-grid-community.js"></script>*@
+<link href="~/Scripts/ag-grid/styles/compiled-icons.css" rel="stylesheet" />
+<link href="~/Scripts/ag-grid/styles/ag-grid.css" rel="stylesheet" />
+<link href="~/Scripts/ag-grid/styles/ag-theme-blue.css" rel="stylesheet" />
+分组
+<button onclick="getSelectedRows()">获取选择的数据</button>
+<div id="myGrid" style="height: 600px;width:100%;" class="ag-theme-balham"></div>
+
+<script type="text/javascript" charset="utf-8">
+    // 定义列
+    /**
+     * headerName 列头显示名称
+     * field 对应数据列名称
+     * sortable 启用排序
+     * filter 启用过滤器
+     * checkboxSelection 设置列CheckBox选择器
+     * */
+    var columnDefs = [
+        { headerName: "Make", field: "make", sortable: true, filter: true, checkboxSelection: false, rowGroup: true },
+        { headerName: "Price", field: "price", sortable: true, filter: true }
+    ];
+
+    /**
+     * 定义分组列
+     * */
+    var autoGroupColumnDef = {
+        headerName: "Model",
+        file: "model",
+        cellRenderer: 'agGroupCellRenderer',
+        cellRendererParams: {
+            checkbox: false
+        }
+    }
+
+
+    // 定义grid属性，grid有哪些列和数据
+    /**
+     * rowSelection: 'multiple' 设置允许多选
+     * */
+    var gridOptions = {
+        columnDefs: columnDefs,
+        autoGroupColumnDef: autoGroupColumnDef,
+        rowSelection: 'multiple'
+    };
+
+    // 获取标签元素
+    var eGridDiv = document.querySelector('#myGrid');
+
+    // 使用传入的Div和列、数据创建grid
+    new agGrid.Grid(eGridDiv, gridOptions);
+
+    // 获取远程数据
+    fetch("/Json/Data2.json").then(function (response) {
+        console.log(response);
+        // 将相应数据转成Json
+        return response.json();
+    }).then(function (data) {
+        // 设置grid的RowData
+        gridOptions.api.setRowData(data);
+    });
+
+    function getSelectedRows() {
+        var selectedNodes = gridOptions.api.getSelectedRows();
+        console.log(selectedNodes);
+
+        var selectDataScringPresentatin = selectedNodes.map(function (node) {
+            console.log(node);
+            return node.make + ' ' + node.model;
+        }).join(';');
+        alert('Selected nodes: ' + selectDataScringPresentatin);
+    }
+
+</script>
