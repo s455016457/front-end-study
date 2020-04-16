@@ -1,0 +1,100 @@
+﻿<html>
+<head>
+    <title>第三章 计算监控属性(2) 可赋值的计算监控属性</title>
+    <script type="text/javascript" src="knockout-3.4.2.js"></script>
+    <meta charset="utf-8" />
+</head>
+<body>
+    <fieldset id="sample1">
+        <legend>分解用户输入</legend>
+        <div>
+            <div>
+                First name: <span data-bind="text:firstName"></span>
+            </div>
+            <div>
+                Last name:<span data-bind="text:lastName"></span>
+            </div>
+            <div>
+                Hello,<input data-bind="textInput:fullName" />
+            </div>
+        </div>
+    </fieldset>
+
+    <fieldset id="sample2">
+        <legend>全选或取消全选</legend>
+        <div>
+            <div>
+                <input id="selectedAll" type="checkbox" data-bind="checked:selectedAllProduce" title="select all/none" />
+                <label for="selectedAll">Produce</label>
+            </div>
+            <div data-bind="foreach:produe">
+                <label>
+                    <input type="checkbox" data-bind="checkedValue:$data,checked:$parent.selectedProduce" />
+                    <span data-bind="text:$data"></span>
+                </label>
+            </div>
+        </div>
+    </fieldset>
+
+    <script type="text/javascript">
+        (function () {
+            console.log("这里是一个闭包");
+            {
+                var sample1Model = new function () {
+                    this.firstName = ko.observable("sdfw");
+                    this.lastName = ko.observable("ere");
+                    this.fullName = ko.pureComputed({
+                        read: function () {
+                            var fName = this.firstName();
+                            var lName = this.lastName();
+                            if (lName)
+                                return fName + " " + lName;
+                            return fName;
+                        },
+                        write: function (value) {
+                            var lastSpacePos = value.lastIndexOf(" ");
+                            if (lastSpacePos > 0) { // Ignore values with no space character
+                                this.firstName(value.substring(0, lastSpacePos)); // Update "firstName"
+                                this.lastName(value.substring(lastSpacePos + 1)); // Update "lastName
+                            } else {
+                                this.firstName(value);
+                                this.lastName('');
+                            }
+                        },
+                        owner: this
+                    });
+                };
+
+                ko.applyBindings(sample1Model, document.getElementById("sample1"));
+            }
+            {
+                var sample2Model = new function () {
+                    this.produe = ['Apple', 'Banana', 'Celery', 'Corn', 'Orange', 'Spinach'];
+                    this.selectedProduce = ko.observableArray(['Corn', 'Orange']);
+                    this.selectedAllProduce = ko.pureComputed({
+                        read: function () {
+                            // Comparing length is quick and is accurate if only items from the
+                            // main array are added to the selected array.
+                            var selectP = this.selectedProduce();
+                            console.log(selectP);
+                            if (!selectP) return false;
+                            return this.selectedProduce().length === this.produe.length;
+                        },
+                        write: function (value) {
+                            console.log(value);
+                            this.selectedProduce.removeAll();
+                            if (value) {
+                                for (var item in this.produe) {
+                                    this.selectedProduce.push(this.produe[item]);
+                                }
+                            }
+                        },
+                        owner:this
+                    });
+                }
+                ko.applyBindings(sample2Model, document.getElementById("sample2"));
+            }
+        })();
+    </script>
+</body>
+</html>
