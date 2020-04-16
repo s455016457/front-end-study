@@ -1,0 +1,47 @@
+div {
+    margin: 10px;
+}
+
+#log {
+    border-style: ridge;
+    border-width: 1px;
+    border-color: cadetblue;
+    min-height: 160px;
+    max-height: 400px;
+    overflow-y: scroll;
+}
+
+table {
+    border-collapse: collapse;
+}
+
+table thead tr {
+    background-color: #34495e;
+}
+
+table tbody tr:nth-child(odd) {
+    background-color: #95a5a6;
+}
+
+table tbody tr:nth-child(even) {
+    background-color: #7f8c8d;
+}
+
+table th {
+    min-width: 80px;
+    border-width: 1px;
+    border-style: ridge;
+    border-color: #130f40;
+}
+
+table tr td {
+    border-width: 1px;
+    border-style: ridge;
+    border-color: #34495e;
+    text-align: center;
+}
+
+#log span {
+    display: block;
+    margin: 5px;
+}
