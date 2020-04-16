@@ -1,0 +1,33 @@
+body {
+    background-color: burlywood;
+}
+
+.box {
+    background-color: #ffffff;
+    height: 160px;
+    width: 160px;
+    border-width: 2px;
+    border-style: solid;
+    border-color: chocolate;
+    margin: 5px;
+    display: inline-block;
+}
+
+.drag {
+    height: 150px;
+    width: 150px;
+    margin: 4px;
+    background-image: url("https://source.unsplash.com/random/150x150");
+    display: block;
+    border: 1px solid grey;
+    cursor: pointer;
+}
+
+.drag-hold {
+    border: 2px solid black;
+}
+
+.box-drag-enter {
+    border-style: dashed;
+    background-color: gray;
+}
