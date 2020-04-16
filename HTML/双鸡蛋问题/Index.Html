@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!-->
+<html class="no-js">
+<!--<![endif]-->
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>双鸡蛋问题</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="">
+    <style type="text/css">
+        input {
+            min-width: 200px;
+            padding: 5px 3px;
+        }
+        
+        input[readonly] {
+            /*取消input标签的默认选中状态样式*/
+            outline: none;
+            border-color: darkgray;
+            border-style: hidden;
+            border-bottom-style: ridge;
+        }
+        
+        input[readonly]::selection {
+            border-color: red;
+            border-style: hidden;
+        }
+        
+        span {
+            min-width: 80px;
+            display: inline-block;
+        }
+        
+        button {
+            padding: 5px 20px;
+        }
+        
+        div {
+            margin: 10px;
+        }
+    </style>
+</head>
+
+<body>
+    <!--[if lt IE 7]>
+            <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="#">upgrade your browser</a> to improve your experience.</p>
+        <![endif]-->
+    <div>
+        <h2>双鸡蛋问题</h5>
+            <span>
+                奥林匹克大厦楼层高100层，当楼层低时，从楼上扔下鸡蛋不会碎，当楼层高时，从楼上扔下鸡蛋会破碎。
+                现在你有两个鸡蛋，你最少扔多少次，100%可以计算得出鸡蛋不会碎的楼层？
+                (除去任何因素，牛顿的棺材已经派人按住了)
+            </span>
+            <span>
+                计算量太大，建议楼层设置20以内，鸡蛋数3以内
+            </span>
+    </div>
+    <div>
+        <span>楼层数：</span>
+        <input type="text" id="txtlc"></div>
+    <div>
+        <span>鸡蛋数：</span>
+        <input type="text" name="txtjd" id="txtjd">
+    </div>
+    <div>
+        <span>投蛋次数：</span>
+        <input type="text" name="txttd" id="txttd" readonly="true">
+    </div>
+    <div>
+        <button id="btnjs">计算</button>
+    </div>
+    <script src="index.js" async defer></script>
+    <script type="text/javascript">
+        (function(window) {
+            var txtlc = document.querySelector("#txtlc");
+            var txtjd = document.querySelector("#txtjd");
+            var txttd = document.querySelector("#txttd");
+            var btnjs = document.querySelector("#btnjs");
+            btnjs.onclick = function() {
+                if (txtlc.value <= 0) {
+                    alert("楼层必须大于0");
+                    return;
+                }
+                if (txtjd.value <= 0) {
+                    alert("鸡蛋数必须大于0");
+                    return;
+                }
+                var dbEegs = new window.doubleEegs(txtlc.value, txtjd.value);
+
+                txttd.value = dbEegs.jisuan();
+            }
+
+        })(window);
+    </script>
+</body>
+
+</html>
