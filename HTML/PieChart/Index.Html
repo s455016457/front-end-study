@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>圆饼图表</title>
+    <style>
+        * {
+            margin: 0px;
+            padding: 0px;
+            border: 0px;
+        }
+    </style>
+</head>
+
+<body>
+    <div style="height: 100px;width: 500px;"></div>
+    <span style="width: 100px;">   sdfsdf </span>
+    <svg width="120" height="120" viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg" version="1.1">
+
+        <!-- Materialisation of anchors -->
+        <path d="M60,15 L60,110 M30,40 L90,40 M30,75 L90,75 M30,110 L90,110" stroke="grey" />
+        
+        
+        <!-- Anchors in action -->
+        <text text-anchor="start"
+            x="60" y="40">A</text>
+
+        <text text-anchor="middle"
+            x="60" y="75">A</text>
+
+        <text text-anchor="end"
+            x="60" y="110">A</text>
+
+        <!-- Materialisation of anchors -->
+        <circle cx="60" cy="40" r="3" fill="red" />
+        <circle cx="60" cy="75" r="3" fill="red" />
+        <circle cx="60" cy="110" r="3" fill="red" />
+
+    </svg>
+
+    <svg height="108" version="1.1" width="108" xmlns="http://www.w3.org/2000/svg" style="overflow: hidden; position: relative; left: -0.5px;">
+        <path class="ring" rate="${deal.attrs.rate}" fill="none" x="54" y="7" r="47" stroke="#fd30ae" d="M54,7A47,47,0,1,1,11,71" stroke-width="15" />
+    </svg>
+
+    <svg width="200" height="200" version="1.1" xmlns="http://www.w3.org/2000/svg">   
+        <path id="ring" fill="none" stroke-width="20" stroke="#fd30ae" />
+        <text x="45% " y="55%" text-anchor="middle" font-size="48">80%</text>
+        </svg>
+    <script>
+        var path = document.getElementById('ring');
+        var r = 90;
+
+        var progress = .45;
+
+        //将path平移到我们需要的坐标位置
+        path.setAttribute('transform', 'translate(' + (r + 10) + ',' + (r + 10) + ')');
+
+        // 计算当前的进度对应的角度值
+        var degrees = progress * 360;
+        // var x = -(Math.cos(degrees) * r).toFixed(2);
+        // var y = (Math.sin(degrees) * r).toFixed(2);
+        // console.log("degrees:" + degrees);
+
+        // 计算当前角度对应的弧度值
+        var rad = degrees * (Math.PI / 180);
+
+        //极坐标转换成直角坐标 Math.sin方法和Math.cos方法传入的是弧度值
+        //Math.sin(x) x	必需。一个以弧度表示的角。将角度乘以 0.017453293 （2PI/360）即可转换为弧度。
+        var x = (Math.sin(rad) * r).toFixed(2);
+        var y = -(Math.cos(rad) * r).toFixed(2);
+        console.log("x:" + x);
+        console.log("y:" + y);
+
+        //大于180度时候画大角度弧，小于180度的画小角度弧，(deg > 180) ? 1 : 0
+        var lenghty = window.Number(degrees > 180);
+
+        //path 属性
+        var descriptions = ['m', 0, -r, 'A', r, r, 0, lenghty, 1, x, y];
+        // var descriptions = ['m', 0, -r, 'A', r, r, 0, lenghty, 1, x, y];
+
+        // 给path 设置属性
+        path.setAttribute('d', descriptions.join(' '));
+    </script>
+    <svg id="pie" width="400" height="400"></svg>
+    <script src="jquery.js"></script>
+    <script src="CircularProgressBar.js"></script>
+    <script>
+        $(function() {
+            $("#pie").CircularProgressBar({});
+        });
+    </script>
+</body>
+
+</html>

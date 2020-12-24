@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="jquery.js"></script>
+    <script src="circleChart.js"></script>
+</head>
+
+<body>
+    <div class="circleChart1"></div>
+    <div class="circleChart2"></div>
+    <script>
+        $(".circleChart1").circleChart({
+            size: 35,
+            value: 78,
+            text: "78%"
+        });
+        $(".circleChart2").circleChart({
+            size: 350,
+            color: "#16a085",
+            backgroundColor: "#bdc3c7",
+            value: 78,
+            text: "78%",
+            animation: "easeInOutQuart",
+            onDraw: function(el, circle) {
+                circle.text(Math.round(circle.value) + "%");
+            }
+        });
+    </script>
+</body>
+
+</html>

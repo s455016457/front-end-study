@@ -1,0 +1,16 @@
+{
+    "folders": [
+		{
+			"path": "HTML5拖拽"
+		},
+		{
+			"path": "双鸡蛋问题"
+		},
+		{
+			"path": "项目排程"
+		}
+	],
+    "settings": {
+        "liveServer.settings.multiRootWorkspaceName": "项目排程"
+    }
+}
