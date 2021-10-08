@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>创建线条</title>
+
+    <script src="https://cdn.staticfile.org/jquery/1.10.2/jquery.min.js"></script>
+
+    <style>
+        html{
+            height: 100%;
+        }
+        body{
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-items: center;
+            align-content: center;
+            padding: 0px;
+            margin: 0px;
+            width: 100%;
+            height: 100%;
+        }
+        svg{    
+            width: 100%;
+            height: 100%;
+        }
+        div{
+            padding: 0px;
+            margin: 0px;
+        }
+        .main{
+            width: 100%;
+            height: 100%;
+        }
+
+        .form{
+            width: 100%;
+            height: 60px;
+            display: grid;
+            grid-template-columns: 170px 170px 170px 170px;
+            align-items: center;
+            /* justify-items: center; */
+            /* align-content: center; */
+        }
+
+        .svg{
+            width: 100%;
+            height: calc(100% - 60px);
+        }
+    </style>
+
+</head>
+<body>
+    <div class="main">
+        <div class="form">
+            <div class="item">
+                <label for="">线条样式：</label>
+                <select name="xiantiaoyangshi">
+                    <option value="0">线条</option>
+                    <option value="1">短点</option>
+                    <option value="2">短线</option>
+                    <option value="3">长线</option>
+                </select>
+            </div>
+            <div class="item">
+                <label for="">线条方向：</label>
+                <select name="lineOrientation">
+                    <option value="0">水平</option>
+                    <option value="1">垂直</option>
+                </select>
+            </div>
+            <div class="item">
+                <label for="">箭头方向：</label>
+                <select name="fangxiang">
+                    <option value="0">上</option>
+                    <option value="1">下</option>
+                    <option value="2">左</option>
+                    <option value="3">右</option>
+                </select>
+            </div>
+            <div class="item">
+                <input id="brokenLine" type="checkbox" name="brokenLine"></input>
+                <label for="brokenLine">折线</label>
+            </div>
+            <div class="item">
+                <input id="shixian" type="checkbox" name="shixian" checked="checked"></input>
+                <label for="shixian">实线</label>
+            </div>
+            <div class="item">
+                <input id="jiantou" type="checkbox" name="jiantou"></input>
+                <label for="jiantou">包含箭头</label>
+            </div>
+            <div class="item">
+                <input id="kongxinjiantou" type="checkbox" name="kongxinjiantou"></input>
+                <label for="kongxinjiantou">空心箭头</label>
+            </div>
+            <div class="item">
+                <input type="button" name="create" value="创建">
+            </div>
+        </div>
+        <div class="svg">
+            <svg>  
+                
+            </svg>
+        </div>
+    </div>
+
+    <script>
+        $(function(){
+            $("input[name='create']").on("click",create);
+
+            function create(){
+                var xiantiaoyangshi=$("select[name='xiantiaoyangshi']").val();
+                var lineOrientation=$("select[name='lineOrientation']").val();
+                var fangxiang=$("select[name='fangxiang']").val();
+                var shixian=$("input[name='shixian']").prop("checked");
+                var jiantou=$("input[name='jiantou']").prop("checked");
+                var kongxinjiantou=$("input[name='kongxinjiantou']").prop("checked");
+                var brokenLine=$("input[name='brokenLine']").prop("checked");
+                var svg=$("div.svg svg");
+               
+                svg.empty();
+
+                var endx=endy=0;
+                if(brokenLine){
+                        var bLine=new BrokenLine(200,200,500,300,2);
+                        bLine.lineStyle=parseInt(xiantiaoyangshi)
+                        bLine.orientation=parseInt(lineOrientation);
+                        var bl = bLine.create();
+                        svg[0].appendChild(bl);
+                        endx=500;
+                        endy=300;
+                }else{                    
+                    var sLine = new StraightLine(200,200,2,300);
+                    sLine.isFill=shixian;
+                    sLine.lineStyle=parseInt(xiantiaoyangshi)
+                    sLine.orientation=parseInt(lineOrientation);
+                    var sl = sLine.create();
+                    svg[0].appendChild(sl);
+                    switch(sLine.orientation){
+                        case 0:
+                            endx=200+300;
+                            endy=200;
+                            break;
+                        case 1:
+                            endx=200;
+                            endy=200+300;
+                            break;
+                    }
+                }
+                
+                if(jiantou){
+                    var arrows = new Arrows(endx,endy,3,10);
+                    arrows.isFill=!kongxinjiantou;
+                    arrows.orientation=parseInt(fangxiang);
+                    arrows.strokeWidth=1;
+                    var jt = arrows.create();
+                    svg[0].appendChild(jt);
+                }
+
+                // var arrows = new Arrows(200,100,3,10);
+                // arrows.isFill=!kongxinjiantou;
+                // arrows.orientation=parseInt(fangxiang);
+                // arrows.strokeWidth=1;
+
+                // var jt = arrows.create();
+                // // var jt = createJianTou(200,200,10,3,fangxiang,!kongxinjiantou);
+                // svg[0].appendChild(jt);
+            }
+
+            function createJianTou(x,y,length,width,fangxiang,shixing){
+                var x1=y1=x2=y2=x3=y3=0;
+                fangxiang=parseInt(fangxiang);
+                switch(fangxiang){
+                    case 0://上
+                        x1=x-width;
+                        x2=x+width;
+                        y1=y2=y;
+                        x3=x;
+                        y3=y-length;
+                        break;
+                    case 1://下
+                        x1=x-width;
+                        x2=x+width;
+                        y1=y2=y;
+                        x3=x;
+                        y3=y+length;
+                        break;
+                    case 2://左
+                        y1=y-width;
+                        y2=y+width;
+                        x1=x2=x;
+                        y3=y;
+                        x3=x-length;
+                        break;
+                    case 3://右
+                        y1=y-width;
+                        y2=y+width;
+                        x1=x2=x;
+                        y3=y;
+                        x3=x+length;
+                        break;
+                    default:
+                        throw "位置方向"+fangxiang;                    
+                }
+                    
+                var fill= "rgb(255 255 255 / 0%)";
+                if(shixing)
+                    fill= "rgb(255,0,0)";
+
+                var polygonDom = document.createElementNS("http://www.w3.org/2000/svg","polygon");
+                polygonDom.setAttribute("points",x1+","+y1+" "+x2+","+y2+" "+x3+","+y3);
+                polygonDom.setAttribute("style","fill:"+fill+";stroke:rgb(255,0,0);stroke-width:2;");
+                return polygonDom;
+                // return $("<polygon>")
+                //     .attr("points",x1+","+y1+" "+x2+","+y2+" "+x3+","+y3)
+                //     .css("fill",fill)
+                //     .css("stroke","rgb(255,0,0)")
+                //     .css("stroke-width",2);
+            }
+        
+            function createLine(x,y,length,xiantiaoyangshi,shixian){}
+        });
+
+        (function(){
+            var Arrows = window.Arrows=function(x,y,width,length,colore){
+                this.x=x;
+                this.y=y;
+                this.width=width;
+                this.length=length;
+                this.colore=colore||"rgb(255,0,0)";
+                this.isFill=true;
+                this.strokeWidth=2;
+                this.orientation=0; // 0 上  1 下  2 左  3 右
+                this.x1=this.y1=this.x2=this.y2=this.x3=this.y3=0;
+            };
+            
+            Arrows.prototype.create=function(){
+                switch(this.orientation){
+                    case 0://上
+                        this.x1=this.x-this.width;
+                        this.x2=this.x+this.width;
+                        this.y1=this.y2=this.y;
+                        this.x3=this.x;
+                        this.y3=this.y-this.length;
+                        break;
+                    case 1://下
+                        this.x1=this.x-this.width;
+                        this.x2=this.x+this.width;
+                        this.y1=this.y2=this.y;
+                        this.x3=this.x;
+                        this.y3=this.y+this.length;
+                        break;
+                    case 2://左
+                        this.y1=this.y-this.width;
+                        this.y2=this.y+this.width;
+                        this.x1=this.x2=this.x;
+                        this.y3=this.y;
+                        this.x3=this.x-this.length;
+                        break;
+                    case 3://右
+                        this.y1=this.y-this.width;
+                        this.y2=this.y+this.width;
+                        this.x1=this.x2=this.x;
+                        this.y3=this.y;
+                        this.x3=this.x+this.length;
+                        break;
+                    default:
+                        throw "位置方向"+this.orientation;    
+                    }
+
+                var fill= "rgb(255 255 255 / 0%)";
+                if(this.isFill)
+                    fill= this.colore;
+
+                var polygonDom = document.createElementNS("http://www.w3.org/2000/svg","polygon");
+                polygonDom.setAttribute("points",this.x1+","+this.y1+" "+this.x2+","+this.y2+" "+this.x3+","+this.y3);
+                polygonDom.setAttribute("style","fill:"+fill+";stroke:"+this.colore+";stroke-width:"+this.strokeWidth+";");
+                return polygonDom;
+            };
+        }());
+
+        (function(){
+            var StraightLine=window.StraightLine=function(x,y,width,length,colore){
+                this.x=x;
+                this.y=y;
+                this.width=width||2;
+                this.length=length;
+                this.colore=colore||"rgb(255,0,0)";
+                this.lineStyle=0;   // 0 直线  1 断点  2 断线  3 长线
+                this.isFill=true;
+                this.orientation=0; // 0 垂直  1 水平 
+                this.x1=this.y1=this.x2=this.y2=0;
+            };
+
+            StraightLine.prototype.create=function(){
+                this.x1=this.x2=this.x;
+                this.y1=this.y2=this.y;
+                console.log(this.orientation);
+                switch(this.orientation){
+                    case 0:
+                        this.x2+=this.length;
+                        break;
+                    case 1:
+                        this.y2+=this.length;
+                        break;
+                    default:
+                        throw "位置方向"+this.orientation;
+                }
+                var fill= "rgb(255 255 255 / 0%)";
+                if(this.isFill)
+                    fill= this.colore;
+                
+                var strokeDasharray="";
+                switch(this.lineStyle){
+                    case 1:
+                        strokeDasharray=this.width+","+(this.width+2);
+                        break;
+                    case 2:
+                        strokeDasharray=this.width*2+","+(this.width*2+2);
+                        break;
+                    case 3:
+                        strokeDasharray=this.width*4+","+(this.width*4+2);
+                        break;
+                }
+
+                var straightLineDom = document.createElementNS("http://www.w3.org/2000/svg","line");
+                straightLineDom.setAttribute("x1",this.x1);
+                straightLineDom.setAttribute("y1",this.y1);
+                straightLineDom.setAttribute("x2",this.x2);
+                straightLineDom.setAttribute("y2",this.y2);
+                straightLineDom.setAttribute("stroke-dasharray",strokeDasharray);
+                straightLineDom.setAttribute("style","fill:"+fill+";stroke:"+this.colore+";stroke-width:"+this.width+";");
+                return straightLineDom;
+            }
+        }());
+    
+        (function(){
+            var BrokenLine=window.BrokenLine=function(x1,y1,x2,y2,width,colore){
+                this.x1=x1;
+                this.y1=y1;
+                this.x2=x2;
+                this.y2=y2;
+                this.width=width||2;
+                this.colore=colore||"rgb(255,0,0)";
+                this.lineStyle=0;   // 0 直线  1 断点  2 断线  3 长线
+                this.orientation=0; // 0 水平  1 垂直 
+            };
+
+            BrokenLine.prototype.create=function(){
+                var xz1=this.x1;
+                var xz2=this.x2;
+                var yz1=this.y1;
+                var yz2=this.y2;
+                switch(this.orientation){
+                    case 0:
+                        xz1=xz2=(this.x2-this.x1)/2+this.x1;
+                        break;
+                    case 1:
+                        yz1=yz2=(this.y2-this.y1)/2+this.y1;
+                        break;
+                }
+                                
+                var strokeDasharray="";
+                switch(this.lineStyle){
+                    case 1:
+                        strokeDasharray=this.width+","+(this.width+2);
+                        break;
+                    case 2:
+                        strokeDasharray=this.width*2+","+(this.width*2+2);
+                        break;
+                    case 3:
+                        strokeDasharray=this.width*4+","+(this.width*4+2);
+                        break;
+                }
+
+                //<polyline points="10,60 100,60 100,120 200,120" style="fill:none; stroke:rgb(255,0,0);stroke-width:2"></polyline>
+                var polylineDom = document.createElementNS("http://www.w3.org/2000/svg","polyline");
+                polylineDom.setAttribute("points",this.x1+","+this.y1
+                    +" "+xz1+","+yz1
+                    +" "+xz2+","+yz2
+                    +" "+this.x2+","+this.y2);
+                polylineDom.setAttribute("stroke-dasharray",strokeDasharray);
+                polylineDom.setAttribute("style","fill:none;stroke:"+this.colore+";stroke-width:"+this.width+";");
+                return polylineDom;
+            };
+        }());
+    </script>
+</body>
+</html>

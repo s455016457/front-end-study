@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SVG</title>
+    <style>
+        body{
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-items: center;
+            align-content: center;
+            padding: 0px;
+            margin: 0px;
+        }
+        svg{    
+            width: 100%;
+            height: 100%;
+        }
+        body div{
+            width: 200px;
+            height: 200px;
+            text-align: center;
+            align-self: center;
+            padding: 0px;
+            margin: 0px;
+        }
+
+        .title{
+            height: 20px;
+            width: 100%;
+        }
+
+        .content{
+            width: auto;
+            height: calc(100% - 20px);
+        }
+    </style>
+</head>
+<body>
+    <DIV>
+        <div class="title">
+            水平居中直线
+        </div>
+        <div class="content">
+            <svg>
+                <line x1="0" y1="90" x2="200" y2="90" style="stroke:rgb(255,0,0);stroke-width:2">test</line>
+<!--                 
+    <text x="100" y="50" dx="-30">A</text>
+    <text x="50" y="50" dy="-10">B</text>
+    <text x="150" y="50" dx="30">C</text> -->
+            </svg>
+        </div>
+    </DIV>
+    <DIV>
+        <div class="title">
+            垂直居中直线
+        </div>
+        <div class="content">
+            <svg>
+                <line x1="100" y1="0" x2="100" y2="180" style="stroke:rgb(255,0,0);stroke-width:2"></line>
+            </svg>
+        </div>
+    </DIV>
+    <DIV>
+        <div class="title">
+            水平居中折线
+        </div>
+        <div class="content">
+            <svg>
+                <polyline points="0,60 100,60 100,120 200,120" style="fill:none; stroke:rgb(255,0,0);stroke-width:2"></polyline>
+            </svg>
+        </div>
+    </DIV>
+    <DIV>
+        <div class="title">
+            垂直居中折线
+        </div>
+        <div class="content">
+            <svg>
+                <polyline points="70,0 70,90 130,90 130,180" style="fill:none; stroke:rgb(255,0,0);stroke-width:2"></polyline>
+            </svg>
+        </div>
+    </DIV>
+    <DIV>
+        <div class="title">
+            对角斜线1
+        </div>
+        <div class="content">
+            <svg>
+                <line x1="0" y1="0" x2="200" y2="180" style="stroke:rgb(255,0,0);stroke-width:2"></line>
+            </svg>
+        </div>
+    </DIV>
+    <DIV>
+        <div class="title">
+            对角斜线2
+        </div>
+        <div class="content">
+            <svg>
+                <line x1="0" y1="180" x2="200" y2="0" style="stroke:rgb(255,0,0);stroke-width:2"></line>
+            </svg>
+        </div>
+    </DIV>
+    <DIV>
+        <div class="title">
+            三角形朝上 x为横坐标，y为纵坐标
+        </div>
+        <div class="content">
+            <svg>
+                <polygon points="100,60 130,120 70,120" style="fill:rgb(255,0,0);stroke:rgb(255,0,0);stroke-width:2"></polygon>
+            </svg>
+        </div>
+    </DIV>
+    <DIV>
+        <div class="title">三角形朝下</div>
+        <div class="content">
+            <svg>
+                <polygon points="100,120 130,60 70,60" style="fill:rgb(255,0,0);stroke:rgb(255,0,0);stroke-width:2"></polygon>
+            </svg>
+        </div>
+    </DIV>
+    <DIV>
+        <div class="title">三角形朝左</div>
+        <div class="content">
+            <svg>
+                <polygon points="70,90 130,60 130,120" style="fill:rgb(255,0,0);stroke:rgb(255,0,0);stroke-width:2"></polygon>
+            </svg>
+        </div>
+    </DIV>
+    <DIV>
+        <div class="title">三角形朝右</div>
+        <div class="content">
+            <svg>
+                <polygon points="130,90 70,60 70,120" style="fill:rgb(255,0,0);stroke:rgb(255,0,0);stroke-width:2"></polygon>
+            </svg>
+        </div>
+    </DIV>
+    <DIV>
+        <div class="title">带箭头直线 箭头朝右</div>
+        <div class="content">
+            <svg>
+                <line x1="0" y1="90" x2="190" y2="90" style="stroke:rgb(255,0,0);stroke-width:2"></line>
+                <polygon points="200,90 190,85 190,95" style="fill:rgb(255,0,0);stroke:rgb(255,0,0);stroke-width:2"></polygon>
+            </svg>
+        </div>
+    </DIV>
+    <DIV>
+        <div class="title">带箭头直线 箭头朝左</div>
+        <div class="content">
+            <svg>
+                <line x1="10" y1="90" x2="200" y2="90" style="stroke:rgb(255,0,0);stroke-width:2"></line>
+                <polygon points="0,90 10,85 10,95" style="fill:rgb(255,0,0);stroke:rgb(255,0,0);stroke-width:2"></polygon>
+            </svg>
+        </div>
+    </DIV>
+    <DIV>
+        <div class="title">带箭头直线 箭头朝上</div>
+        <div class="content">
+            <svg>
+                <line x1="100" y1="10" x2="100" y2="180" style="stroke:rgb(255,0,0);stroke-width:2"></line>
+                <polygon points="100,0 95,10 105,10" style="fill:rgb(255,0,0);stroke:rgb(255,0,0);stroke-width:2"></polygon>
+            </svg>
+        </div>
+    </DIV>
+    <DIV>
+        <div class="title">带箭头直线 箭头朝下</div>
+        <div class="content">
+            <svg>
+                <line x1="100" y1="00" x2="100" y2="170" style="stroke:rgb(255,0,0);stroke-width:2"></line>
+                <polygon points="100,180 95,170 105,170" style="fill:rgb(255,0,0);stroke:rgb(255,0,0);stroke-width:2"></polygon>
+            </svg>
+        </div>
+    </DIV>
+    <DIV>
+        <div class="title">带箭头折线 箭头朝上</div>
+        <div class="content">
+            <svg>
+                <polyline points="70,10 70,90 130,90 130,180" style="fill:none; stroke:rgb(255,0,0);stroke-width:2"></polyline>
+                <polygon points="70,0 65,10 75,10" style="fill:rgb(255,0,0);stroke:rgb(255,0,0);stroke-width:2"></polygon>
+            </svg>
+        </div>
+    </DIV>
+    <DIV>
+        <div class="title">带箭头折线 箭头朝下</div>
+        <div class="content">
+            <svg>
+                <polyline points="70,0 70,90 130,90 130,170" style="fill:none; stroke:rgb(255,0,0);stroke-width:2"></polyline>
+                <polygon points="130,180 125,170 135,170" style="fill:rgb(255,0,0);stroke:rgb(255,0,0);stroke-width:2"></polygon>
+            </svg>
+        </div>
+    </DIV>
+    <DIV>
+        <div class="title">带箭头折线 箭头朝右</div>
+        <div class="content">
+            <svg>
+                <polyline points="0,60 100,60 100,120 190,120" style="fill:none; stroke:rgb(255,0,0);stroke-width:2"></polyline>
+                <polygon points="200,120 190,115 190,125" style="fill:rgb(255,0,0);stroke:rgb(255,0,0);stroke-width:2"></polygon>
+            </svg>
+        </div>
+    </DIV>
+    <DIV>
+        <div class="title">带箭头折线 箭头朝左</div>
+        <div class="content">
+            <svg>
+                <polyline points="10,60 100,60 100,120 200,120" style="fill:none; stroke:rgb(255,0,0);stroke-width:2"></polyline>
+                <polygon points="0,60 10,55 10,65" style="fill:rgb(255,0,0);stroke:rgb(255,0,0);stroke-width:2"></polygon>
+            </svg>
+        </div>
+    </DIV>
+</body>
+</html>
