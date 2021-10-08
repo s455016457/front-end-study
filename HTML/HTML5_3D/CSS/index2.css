@@ -1,0 +1,86 @@
+* {
+    border: 0px;
+    margin: 0px;
+    padding: 0px;
+}
+
+body {
+    width: 100%;
+    height: 100vh;
+    overflow: hidden;
+}
+
+.main {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    background-image: url("../Images/1.jpg");
+    background-size: contain;
+    /* transition: all .5s ease-in-out; */
+    /* 定义背景图片的过度动画 */
+    transition-property: background-image;
+    transition-duration: 2s;
+    transition-timing-function: ease;
+}
+
+.box {
+    position: absolute;
+    /* background-color: burlywood; */
+    width: 500px;
+    height: 500px;
+    top: calc(50% - 250px);
+    left: calc(50% - 250px);
+    transform: rotateX(-35deg) rotateY(25deg) rotateZ(25deg) translate3d(59px, 70px, 130px);
+    transform-style: preserve-3d;
+}
+
+.box span {
+    position: absolute;
+    display: block;
+    width: 500px;
+    height: 500px;
+    /* border: 1px solid black; */
+    transform-style: preserve-3d;
+    transition: all 2.5s ease;
+    /* 定义背景图片的过度动画 */
+    /* transition-property: background-image;
+    transition-duration: 2s;
+    transition-timing-function: ease; */
+    /* background-color: blanchedalmond; */
+}
+
+.panel1 {
+    transform: rotateX(0deg) rotateY(0deg) rotateZ(0deg) translate3d(0px, 0px, 0px);
+    background-image: url("../Images/2.jpg");
+    background-size: contain;
+}
+
+.panel2 {
+    transform: rotateX(90deg) rotateY(0deg) rotateZ(0deg) translate3d(0px, -250px, 250px);
+    background-image: url("../Images/3.jpg");
+    background-size: contain;
+}
+
+.panel3 {
+    transform: rotateX(0deg) rotateY(-90deg) rotateZ(0deg) translate3d(-250px, 0px, 250px);
+    background-image: url("../Images/4.jpg");
+    background-size: contain;
+}
+
+.panel4 {
+    transform: rotateX(0deg) rotateY(0deg) rotateZ(0deg) translate3d(0, 0px, -500px);
+    background-image: url("../Images/5.jpg");
+    background-size: contain;
+}
+
+.panel5 {
+    transform: rotateX(90deg) rotateY(0deg) rotateZ(0deg) translate3d(0, -250px, -250px);
+    background-image: url("../Images/6.jpg");
+    background-size: contain;
+}
+
+.panel6 {
+    transform: rotateX(0deg) rotateY(-90deg) rotateZ(0deg) translate3d(-250px, 0px, -250px);
+    background-image: url("../Images/7.jpg");
+    background-size: contain;
+}

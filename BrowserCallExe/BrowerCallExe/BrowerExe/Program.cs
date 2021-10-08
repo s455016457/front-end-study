@@ -29,8 +29,8 @@ namespace BrowerExe
                     Console.WriteLine(value);
                 }
             }
-            //Console.WriteLine("输入回车退出");
-            //Console.ReadLine();
+            Console.WriteLine("输入回车退出");
+            Console.ReadLine();
         }
     }
 }

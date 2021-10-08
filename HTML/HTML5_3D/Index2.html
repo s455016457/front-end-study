@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="Css/index2.css">
+</head>
+
+<body>
+    <script>
+        var images = [
+            "Images/1.jpg", "Images/2.jpg", "Images/3.jpg", "Images/4.jpg", "Images/5.jpg", "Images/6.jpg", "Images/7.jpg", "Images/8.jpg", "Images/9.jpg", "Images/10.jpg"
+        ];
+
+        var imageRootPtah = "";
+
+
+        function imagePreLoaded() {
+            let div = document.createElement("div");
+
+            div.style.display = "none";
+            document.body.appendChild(div);
+
+            for (let i = 0; i < images.length; i++) {
+                let img = document.createElement("img");
+                img.src = images[i];
+                div.appendChild(img);
+            }
+        }
+
+        imagePreLoaded();
+    </script>
+    <div class="main">
+        <div class="box">
+            <span class="panel"></span>
+            <span class="panel"></span>
+            <span class="panel"></span>
+            <span class="panel"></span>
+            <span class="panel"></span>
+            <span class="panel"></span>
+        </div>
+    </div>
+    <script src="Js/index2.js"></script>
+</body>
+
+</html>
