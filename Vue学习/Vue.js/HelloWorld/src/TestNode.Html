@@ -15,14 +15,23 @@
         #example1 {
             display: flex;
             position: relative;
-            flex-wrap: wrap;
+            flex-wrap: nowrap;
+            flex-direction: column;
+            align-content: center;
+            justify-content: center;
+            align-items: center;
         }
         
         .node {
-            align-items: center;
+            /* align-items: center;
             align-content: center;
             display: grid;
             justify-content: space-between;
+            justify-items: center; */
+            align-items: center;
+            align-content: center;
+            display: flex;
+            justify-content: flex-start;
             justify-items: center;
         }
         
@@ -37,7 +46,9 @@
         }
         
         .node-childs {
-            display: flex;
+            /* display: flex;
+            flex-wrap: wrap; */
+            display: grid;
             flex-wrap: wrap;
         }
         
@@ -204,6 +215,17 @@
                     mounted();
                 })
             },
+            renderTracked({
+                key,
+                target,
+                type
+            }) {
+                console.log({
+                    key,
+                    target,
+                    type
+                });
+            },
             computed: {
                 hasNextNode() {
                     return this.data.nextNode && this.data.nextNode.name;
@@ -221,18 +243,30 @@
             methods: {
                 saveChildNodePoint(params) {
                     if (params.prefixNode) {
+                        // this.connectingLinePoints.push({
+                        //     beginPoint: params.prefixNode.nodeContent.connectingAnchorPoint.right,
+                        //     endPoint: params.nodeContent.connectingAnchorPoint.left,
+                        //     lineOrientation: "horizontal",
+                        //     hasEndArrows: true
+                        // });
                         this.connectingLinePoints.push({
-                            beginPoint: params.prefixNode.nodeContent.connectingAnchorPoint.right,
-                            endPoint: params.nodeContent.connectingAnchorPoint.left,
-                            lineOrientation: "horizontal",
+                            beginPoint: params.prefixNode.nodeContent.connectingAnchorPoint.bottom,
+                            endPoint: params.nodeContent.connectingAnchorPoint.top,
+                            lineOrientation: "verticality",
                             hasEndArrows: true
                         });
                     } else {
                         if (params.parentNode) {
+                            // this.connectingLinePoints.push({
+                            //     beginPoint: params.parentNode.nodeContent.connectingAnchorPoint.bottom,
+                            //     endPoint: params.nodeContent.connectingAnchorPoint.top,
+                            //     lineOrientation: "verticality",
+                            //     hasEndArrows: true
+                            // });
                             this.connectingLinePoints.push({
-                                beginPoint: params.parentNode.nodeContent.connectingAnchorPoint.bottom,
-                                endPoint: params.nodeContent.connectingAnchorPoint.top,
-                                lineOrientation: "verticality",
+                                beginPoint: params.parentNode.nodeContent.connectingAnchorPoint.right,
+                                endPoint: params.nodeContent.connectingAnchorPoint.left,
+                                lineOrientation: "horizontal",
                                 hasEndArrows: true
                             });
                         }
