@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://unpkg.com/vue@next"></script>
+    <title>节点测试</title>
+</head>
+
+<body>
+
+    <style type="text/css">
+        #example1 {
+            display: flex;
+            position: relative;
+            flex-wrap: wrap;
+        }
+        
+        .node {
+            align-items: center;
+            align-content: center;
+            display: grid;
+            justify-content: space-between;
+            justify-items: center;
+        }
+        
+        .node-content {
+            width: auto;
+            margin: 20px;
+            padding: 10px;
+            border-width: 1px;
+            border-style: solid;
+            transition: circle;
+            border-radius: 10px;
+        }
+        
+        .node-childs {
+            display: flex;
+            flex-wrap: wrap;
+        }
+        
+        .child-node-line {
+            fill: none;
+            stroke: rgb(255, 0, 0);
+            stroke-width: 2;
+        }
+        
+        .prefix-node-line {
+            fill: none;
+            stroke: rgb(255, 0, 0);
+            stroke-width: 2;
+        }
+        
+        .child-node-arrows {
+            fill: rgb(255, 0, 0);
+            stroke: rgb(255, 0, 0);
+            stroke-width: 1;
+        }
+        
+        .prefix-node-arrows {
+            fill: rgb(255, 0, 0);
+            stroke: rgb(255, 0, 0);
+            stroke-width: 1;
+        }
+        
+        svg {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+        }
+    </style>
+
+    <div id="example1">
+        <node :connecting-line-points="connectingLinePoints" :data="data">
+            <template v-slot:header="headerData">{{headerData.data.name+" Title"}} </template>
+            <template v-slot:body="bodyData">{{bodyData.data.name+" Body"}} </template>
+        </node>
+        <svg>
+            <connecting-line 
+            v-for="point in connectingLinePoints"
+            :stats="point"></connecting-line>
+        </svg>
+    </div>
+
+    <script type="text/javascript">
+        var data = {
+            name: "节点1",
+            nextNode: {
+                name: "节点2",
+                nextNode: {
+                    name: "节点3",
+                    nextNode: {
+                        name: "节点4"
+                    }
+                },
+                childNodes: [{
+                    name: "节点2_1"
+                }, {
+                    name: "节点2_2"
+                }]
+            },
+            childNodes: [{
+                name: "节点1_1",
+                nextNode: {
+                    name: "节点1_2",
+                    nextNode: {
+                        name: "节点1_3"
+                    }
+                }
+            }, {
+                name: "节点2_1",
+                nextNode: {
+                    name: "节点2_2"
+                }
+            }, {
+                name: "节点3_1"
+            }]
+        };
+
+        var connectingLinePoints = [];
+
+        const app = Vue.createApp({
+            data: function() {
+                return {
+                    data: data,
+                    connectingLinePoints: connectingLinePoints,
+                };
+            }
+        });
+
+        // 定义一个名为 node-item 的新组件
+        app.component("node", {
+            props: {
+                data: Object,
+                parentNode: Object,
+                prefixNode: Object,
+                connectingLinePoints: Array
+            },
+            data() {
+                return {
+                    node: {
+                        data: this.data,
+                        nodeContent: {
+                            top: 0,
+                            left: 0,
+                            width: 0,
+                            height: 0,
+                            connectingAnchorPoint: {
+                                top: {
+                                    X: 0,
+                                    Y: 0
+                                },
+                                bottom: {
+                                    X: 0,
+                                    Y: 0
+                                },
+                                left: {
+                                    X: 0,
+                                    Y: 0
+                                },
+                                right: {
+                                    X: 0,
+                                    Y: 0
+                                },
+                            }
+                        }
+                    }
+                };
+            },
+            mounted() {
+                this.$nextTick(function() {
+                    // 仅在整个视图都被渲染之后才会运行的代码
+                    const $node = this.$refs.nodeBox;
+                    const $nodeContent = $node.querySelector('.node-content')
+                    this.node.nodeContent.left = $nodeContent.offsetLeft;
+                    this.node.nodeContent.top = $nodeContent.offsetTop;
+                    this.node.nodeContent.width = $nodeContent.offsetWidth;
+                    this.node.nodeContent.height = $nodeContent.offsetHeight;
+
+                    this.node.nodeContent.connectingAnchorPoint.top.X = this.node.nodeContent.left + this.node.nodeContent.width / 2;
+                    this.node.nodeContent.connectingAnchorPoint.top.Y = this.node.nodeContent.top;
+
+                    this.node.nodeContent.connectingAnchorPoint.bottom.X = this.node.nodeContent.left + this.node.nodeContent.width / 2;
+                    this.node.nodeContent.connectingAnchorPoint.bottom.Y = this.node.nodeContent.top + this.node.nodeContent.height;
+
+                    this.node.nodeContent.connectingAnchorPoint.left.X = this.node.nodeContent.left;
+                    this.node.nodeContent.connectingAnchorPoint.left.Y = this.node.nodeContent.top + this.node.nodeContent.height / 2;
+
+                    this.node.nodeContent.connectingAnchorPoint.right.X = this.node.nodeContent.left + this.node.nodeContent.width;
+                    this.node.nodeContent.connectingAnchorPoint.right.Y = this.node.nodeContent.top + this.node.nodeContent.height / 2;
+                    this.$emit("saveChildNodePoint", {
+                        data: this.node.data,
+                        nodeContent: this.node.nodeContent,
+                        parentNode: this.parentNode,
+                        prefixNode: this.prefixNode,
+                    });
+                })
+            },
+            updated() {
+                this.$nextTick(function() {
+                    // 仅在整个视图都被重新渲染完毕之后才会运行的代码
+                    mounted();
+                })
+            },
+            computed: {
+                hasNextNode() {
+                    return this.data.nextNode && this.data.nextNode.name;
+                },
+                hasChildNode() {
+                    return this.data.childNodes && this.data.childNodes.length > 0;
+                },
+                hasPrentNode() {
+                    return this.parentNode != undefined && this.parentNode != null;
+                },
+                hasPrefixNode() {
+                    return this.prefixNode != undefined && this.prefixNode != null;
+                }
+            },
+            methods: {
+                saveChildNodePoint(params) {
+                    if (params.prefixNode) {
+                        this.connectingLinePoints.push({
+                            beginPoint: params.prefixNode.nodeContent.connectingAnchorPoint.right,
+                            endPoint: params.nodeContent.connectingAnchorPoint.left,
+                            lineOrientation: "horizontal",
+                            hasEndArrows: true
+                        });
+                    } else {
+                        if (params.parentNode) {
+                            this.connectingLinePoints.push({
+                                beginPoint: params.parentNode.nodeContent.connectingAnchorPoint.bottom,
+                                endPoint: params.nodeContent.connectingAnchorPoint.top,
+                                lineOrientation: "verticality",
+                                hasEndArrows: true
+                            });
+                        }
+                    }
+                    console.log("saveChildNodePoint", this, params);
+                }
+            },
+            template: `<div ref="nodeBox" class="node">
+                <div class="node-content">
+                    <div class="node-content-title">
+                        <slot name="header" :data="data">{{data.name}}</slot>
+                    </div>
+                    <div class="node-content-body">
+                        <slot name="body" :data="data"></slot>  
+                    </div>
+                </div>
+                <div v-if="hasChildNode" ref="childNodes" class="node-childs">
+                   <node
+                    v-for="childNode in data.childNodes"
+                    :data="childNode"
+                    :parent-node="node"
+                    :connecting-line-points="connectingLinePoints"
+                    @saveChildNodePoint="saveChildNodePoint">
+                    <template v-slot:body="childNode"><slot name="body" :data="childNode.data"></slot></template>
+                    </node>
+                </div>
+            </div>
+            <node 
+                v-if="hasNextNode"
+                :data="data.nextNode"
+                :parent-node="data.parentNode"
+                :prefix-node="node"
+                :connecting-line-points="connectingLinePoints"
+                @saveChildNodePoint="saveChildNodePoint">
+                <template v-slot:body="bodyData"><slot name="body" :data="bodyData.data"></slot> </template>
+            </node>
+            `
+        });
+
+        // 连接线
+        app.component("connecting-line", {
+            props: {
+                stats: Object
+            },
+            computed: {
+                isHorizontal() { // 连接线是水平方向
+                    return this.stats.lineOrientation && this.stats.lineOrientation == "horizontal";
+                },
+                isVerticality() { // 连接线是垂直方向
+                    return this.stats.lineOrientation && this.stats.lineOrientation == "verticality";
+                },
+                linePoints() {
+                    var beginX = this.stats.beginPoint.X;
+                    var beginY = this.stats.beginPoint.Y;
+                    var endX = this.stats.endPoint.X;
+                    var endY = this.stats.endPoint.Y;
+
+                    if (this.isHorizontal) {
+                        if (this.stats.hasBeginArrows) {
+                            beginX += 10;
+                        }
+                        if (this.stats.hasEndArrows) {
+                            endX -= 10;
+                        }
+                        if (endX < beginX) {
+                            var x1 = x2 = beginX + 10;
+                            var x3 = x4 = endX - 10;
+                            var y1 = beginY;
+                            var y2 = y3 = (beginY + endY) * 3 / 5;
+                            var y4 = endY;
+
+                            return beginX + "," + beginY + " " + x1 + "," + y1 + " " + x2 + "," + y2 + " " + x3 + "," + y3 + " " + x4 + "," + y4 + " " + endX + "," + endY;
+                        } else {
+                            var x1 = x2 = (beginX + endX) / 2;
+                            var y1 = beginY;
+                            var y2 = endY;
+
+                            return beginX + "," + beginY + " " + x1 + "," + y1 + " " + x2 + "," + y2 + " " + endX + "," + endY;
+                        }
+                    } else if (this.isVerticality) {
+                        if (this.stats.hasBeginArrows) {
+                            beginY += 10;
+                        }
+                        if (this.stats.hasEndArrows) {
+                            endY -= 10;
+                        }
+
+                        var x1 = beginX;
+                        var x2 = endX;
+                        var y1 = y2 = (beginY + endY) / 2;
+
+                        return beginX + "," + beginY + " " + x1 + "," + y1 + " " + x2 + "," + y2 + " " + endX + "," + endY;
+
+                    } else {
+                        throw "未知方向" + this.stats.lineOrientation;
+                    }
+                },
+                beginArrowsPoints() {
+                    var beginX = this.stats.beginPoint.X;
+                    var beginY = this.stats.beginPoint.Y;
+                    if (this.isHorizontal) {
+                        return beginX + "," + beginY + " " + (beginX + 10) + "," + (beginY - 4) + " " + (beginX + 10) + "," + (beginY + 4);
+                    } else if (this.isVerticality) {
+                        return beginX + "," + beginY + " " + (beginX - 4) + "," + (beginY + 10) + " " + (beginX + 4) + "," + (beginY + 10);
+                    } else {
+                        throw "未知方向" + this.stats.lineOrientation;
+                    }
+                },
+                endArrowsPoints() {
+                    var endX = this.stats.endPoint.X;
+                    var endY = this.stats.endPoint.Y;
+                    if (this.isHorizontal) {
+                        return endX + "," + endY + " " + (endX - 10) + "," + (endY - 4) + " " + (endX - 10) + "," + (endY + 4);
+                    } else if (this.isVerticality) {
+                        return endX + "," + endY + " " + (endX - 4) + "," + (endY - 10) + " " + (endX + 4) + "," + (endY - 10);
+                    } else {
+                        throw "未知方向" + this.stats.lineOrientation;
+                    }
+                }
+            },
+            template: `
+            <polygon 
+            v-if="stats.hasBeginArrows"
+            :points="beginArrowsPoints" 
+            class="child-node-arrows"></polygon>
+            <polyline 
+            :points="linePoints"
+            stroke-dasharray 
+            class="child-node-line"></polyline>
+            <polygon 
+            v-if="stats.hasEndArrows"
+            :points="endArrowsPoints" 
+            class="child-node-arrows"></polygon>
+            `
+        });
+
+        app.mount('#example1');
+    </script>
+
+    <!-- item template -->
+    <!-- <script type="text/x-template" id="item-template">
+        <li>
+            <div :class="{bold: isFolder}" @click="toggle" @dblclick="makeFolder">
+                {{ item.name }}
+                <span v-if="isFolder">[{{ isOpen ? '-' : '+' }}]</span>
+            </div>
+            <ul v-show="isOpen" v-if="isFolder">
+                <tree-item class="item" v-for="(child, index) in item.children" :key="index" :item="child" @make-folder="$emit('make-folder', $event)" @add-item="$emit('add-item', $event)"></tree-item>
+                <li class="add" @click="$emit('add-item', item)">+</li>
+            </ul>
+        </li>
+    </script>
+
+    <p>(You can double click on an item to turn it into a folder.)</p> -->
+
+    <!-- the demo root element -->
+    <!-- <ul id="demo">
+        <tree-item class="item" :item="treeData" @make-folder="makeFolder" @add-item="addItem"></tree-item>
+    </ul> -->
+
+    <script>
+        // demo data
+        var treeData = {
+            name: "My Tree",
+            children: [{
+                name: "hello"
+            }, {
+                name: "wat"
+            }, {
+                name: "child folder",
+                children: [{
+                    name: "child folder",
+                    children: [{
+                        name: "hello"
+                    }, {
+                        name: "wat"
+                    }]
+                }, {
+                    name: "hello"
+                }, {
+                    name: "wat"
+                }, {
+                    name: "child folder",
+                    children: [{
+                        name: "hello"
+                    }, {
+                        name: "wat"
+                    }]
+                }]
+            }]
+        };
+
+        // const app = Vue.createApp({
+        //     data: function() {
+        //         return {
+        //             treeData: treeData
+        //         }
+        //     },
+        //     methods: {
+        //         makeFolder: function(item) {
+        //             item.children = [];
+        //             this.addItem(item);
+        //         },
+        //         addItem: function(item) {
+        //             item.children.push({
+        //                 name: "new stuff"
+        //             });
+        //         }
+        //     }
+        // })
+
+        // app.component("tree-item", {
+        //     template: '#item-template',
+        //     props: {
+        //         item: Object
+        //     },
+        //     data: function() {
+        //         return {
+        //             isOpen: false
+        //         };
+        //     },
+        //     computed: {
+        //         isFolder: function() {
+        //             return this.item.children && this.item.children.length;
+        //         }
+        //     },
+        //     methods: {
+        //         toggle: function() {
+        //             if (this.isFolder) {
+        //                 this.isOpen = !this.isOpen;
+        //             }
+        //         },
+        //         makeFolder: function() {
+        //             if (!this.isFolder) {
+        //                 this.$emit("make-folder", this.item);
+        //                 this.isOpen = true;
+        //             }
+        //         }
+        //     }
+        // })
+
+        // app.mount('#demo');
+    </script>
+</body>
+
+</html>
+
+</html>

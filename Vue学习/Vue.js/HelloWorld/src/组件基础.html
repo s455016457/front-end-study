@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <title>组件基础</title>
+</head>
+
+<body>
+
+    <div id="example1">
+        <button-conter></button-conter>
+    </div>
+    <script type="text/javascript">
+        // 定义一个名为button-conter的新组件
+        Vue.component("button-conter", {
+            // 组件在复用时，每个组件独立维护自己的数据
+            // data必须是一个返回数据对象的函数
+            data: function() {
+                return {
+                    count: 0
+                };
+            },
+            template: '<button v-on:click="count++">你点击按钮【{{count}}】次了</button>'
+        });
+
+        new Vue({
+            el: '#example1'
+        })
+    </script>
+    <hr>
+    <h3>组件可以复用</h3>
+    <h5>每个组件独立维护自己的数据</h5>
+    <div id="example2">
+        <button-conter></button-conter>
+        <button-conter></button-conter>
+        <button-conter></button-conter>
+        <button-conter></button-conter>
+    </div>
+    <script type="text/javascript">
+        new Vue({
+            el: '#example2'
+        })
+    </script>
+
+    <h3>监听子组件事件</h3>
+
+    <div id="blog-posts-events-demo">
+        <div :style="{fontSize:postFontSize+'em'}">
+            <!-- 【v-bind:post="post"】 向子控件传入post参数 -->
+            <!-- 【v-on:enlarge-text="postFontSize += 0.1"】 监听子控件的【enlarge-text】事件，并执行【postFontSize += $event】 $event 为事件传入的参数-->
+            <blog-post v-for="post in posts" v-bind:key="post.id" v-bind:post="post" v-on:enlarge-text="postFontSize += $event">
+            </blog-post>
+        </div>
+    </div>
+
+    <script type="text/javascript">
+        // 注册 blog-post 控件
+        //  v-on:click="$emit('enlarge-text')" 控件注册 enlarge-text 事件
+        //  v-on:click="$emit('enlarge-text',0.1)" 控件注册 enlarge-text 事件并向事件传入参数
+        Vue.component('blog-post', {
+            props: ['post'], // 定义控件需要post参数
+            template: `
+                <div class="blog-post">
+                    <h3>{{ post.title }}</h3>
+                    <button  v-on:click="$emit('enlarge-text',0.1)">
+                        放大字体
+                    </button>
+                    <button  v-on:click="$emit('enlarge-text',-0.1)">
+                        缩小字体
+                    </button>
+                    <div v-html="post.content"></div>
+                </div>
+            `
+        });
+        new Vue({
+            el: '#blog-posts-events-demo',
+            data: {
+                posts: [{
+                    id: 1,
+                    titl: '博客1',
+                    content: '<div>博客1的内容</div>'
+                }, {
+                    id: 2,
+                    titl: '博客2',
+                    content: '<div>博客2的内容</div>'
+                }, {
+                    id: 3,
+                    titl: '博客3',
+                    content: '<div>博客3的内容</div>'
+                }],
+                postFontSize: 1
+            }
+        });
+    </script>
+
+    <hr>
+
+    <h3>插槽</h3>
+
+    <div id="blog-solt-demo">
+        <h5>这里是一个博客</h5>
+        <!--【v-bind:body="body"】 向组件传递 body参数值 -->
+        <blog-solt v-bind:body="body">
+            <!-- v-slot:header="slotProps"  接收插槽中的数据，用于父级作用于中 -->
+            <!-- v-slot:default="slotProps"  接收插槽中的数据，用于父级作用于中 -->
+            <template v-slot:header="slotProps">
+                <p> 这里是博客title </p>
+                <!-- 使用插槽传入的数据 -->
+                {{slotProps.body.header}}
+                <hr>
+            </template>
+            <template v-slot:default="slotProps">
+                <p>这里是博客body</p>
+                {{slotProps.body.main}}
+                <hr>
+            </template>
+            <footer>
+            </footer>
+        </blog-solt>
+    </div>
+
+    <script type="text/javascript">
+        var blog = function(header, main, footer) {
+            this.header = header;
+            this.main = main;
+            this.footer = footer;
+        }
+
+        /**
+            组件接受一个类型为blog类型的参数
+            绑定在 <slot> 元素上的 attribute 被称为插槽 prop，使得可以在父级访问插槽中的数据  
+            <slot name='header'></slot> 带有名称的插槽
+            v-bind:body="body" 插槽将body传入父级插槽          
+        **/
+
+        Vue.component('blog-solt', {
+            props: {
+                body: blog
+            },
+            template: `
+                <div>
+                {{body}}
+                    <header>
+                        <slot name='header' v-bind:body="body"></slot>
+                    </header>
+                    <main>
+                        <slot v-bind:body="body"></slot>
+                    </main>
+                    <footer>
+                        <slot name='footer' v-bind:body="body">
+                        {{body.footer}}
+                        </slot>
+                    </footer>
+                </div>
+                `
+        });
+
+        new Vue({
+            el: '#blog-solt-demo',
+            data: {
+                body: new blog('这里是博客标题', '这里是博客正文', '这里是博客脚')
+            }
+        });
+    </script>
+</body>
+
+</html>

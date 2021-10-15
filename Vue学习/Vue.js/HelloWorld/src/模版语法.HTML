@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>模版语法</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+
+<body>
+    <h2>文本</h2>
+    <div>代码</div>
+    <code>
+        <span>Message:{{msg}}</span>
+    </code>
+    <div>显示结果：</div>
+    <div id="text1">
+        <span>Message:{{msg}}</span>
+    </div>
+    <script>
+        var vm = new Vue({
+            el: "#text1",
+            data: {
+                msg: 'Hello World!'
+            }
+        });
+    </script>
+
+    <hr>
+
+    <h2>原始Html</h2>
+    <div>
+        双大括号会将数据解释为普通文本，而非 HTML 代码。为了输出真正的 HTML，你需要使用 v-html 指令：
+    </div>
+    <div>代码</div>
+    <code>
+        <p>Using mustaches:{{rawHtml}}</p>
+        <p>
+            Using v-html directive:<span v-html="rawHtml"></span>
+        </p>
+    </code>
+    <div>显示结果：</div>
+    <div id="v-html">
+        <p>Using mustaches:{{rawHtml}}</p>
+        <p>
+            Using v-html directive:<span v-html="rawHtml"></span>
+        </p>
+    </div>
+
+    <script>
+        var vm2 = new Vue({
+            el: "#v-html",
+            data: {
+                rawHtml: '<span style="color:red">这段文职显示为红色</span>'
+            }
+        });
+    </script>
+
+    <hr>
+
+    <h2>Attribute</h2>
+    <div>代码</div>
+    <code>
+        <div v-bind:title="title">我有title</div>
+    </code>
+    <div>显示结果：</div>
+    <div id="v-att">
+        <div v-bind:title="title">我有title</div>
+    </div>
+
+    <script>
+        var vm3 = new Vue({
+            el: "#v-att",
+            data: {
+                title: '这是我的title'
+            }
+        });
+    </script>
+
+    <hr>
+
+    <h2>使用 JavaScript 表达式</h2>
+    <div>代码</div>
+    <code data-info="Html">
+        <div>{{number + 1}}</div>
+        <div>{{ok ? 'YES':'NO'}}</div>
+        <div>{{msg.split('').reverse().join('')}}</div>
+        <div v-bind:title="'原来Title_'+title">我的Title是计算出来的</div>
+    </code>
+    <div>显示结果：</div>
+    <div id="v-js">
+        <div>{{number + 1}}</div>
+        <div>{{ok ? 'YES':'NO'}}</div>
+        <div>{{msg.split('').reverse().join('')}}</div>
+        <div v-bind:title="'原来Title_'+title">我的Title是计算出来的</div>
+    </div>
+
+    <script>
+        var vm4 = new Vue({
+            el: "#v-js",
+            data: {
+                number: 1,
+                ok: true,
+                msg: 'abcdefg',
+                title: '这是我的title'
+            }
+        });
+    </script>
+
+    <hr>
+
+    <h2>指令</h2>
+    指令 (Directives) 是带有 v- 前缀的特殊 attribute。指令 attribute 的值预期是单个 JavaScript 表达式 (v-for 是例外情况，稍后我们再讨论)。指令的职责是，当表达式的值改变时，将其产生的连带影响，响应式地作用于 DOM。
+
+    <div id="zhiling">
+        <p v-if="seen">你现在可以看到我了</p>
+    </div>
+
+    <script>
+        var vm5 = new Vue({
+            el: "#zhiling",
+            data: {
+                seen: true
+            }
+        });
+    </script>
+
+</body>
+
+</html>

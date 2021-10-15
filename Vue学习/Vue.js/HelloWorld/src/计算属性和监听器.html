@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>计算属性和监听器</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <!-- 因为 AJAX 库和通用工具的生态已经相当丰富，Vue 核心代码没有重复 -->
+    <!-- 提供这些功能以保持精简。这也可以让你自由选择自己更熟悉的工具。 -->
+    <script src="https://cdn.jsdelivr.net/npm/axios@0.12.0/dist/axios.min.js"></script>
+    <!-- 限制操作频率的函数库 -->
+    <script src="https://cdn.jsdelivr.net/npm/lodash@4.13.1/lodash.min.js"></script>
+</head>
+
+<body>
+    <div id="example1">
+        <p>Original message:"{{message}}"</p>
+        <p>Computed reversed message:"{{reversedMessage}}"</p>
+    </div>
+    <script>
+        var vm1 = new Vue({
+            el: "#example1",
+            data: {
+                message: 'Hello'
+            },
+            computed: {
+                // 计算属性的 getter
+                reversedMessage: function() {
+                    // this 指向 vm 实例
+                    return this.message.split('').reverse().join('');
+                }
+            }
+        });
+    </script>
+    <hr>
+    <h2>计算属性的setter</h2>
+
+    <div id="example2">
+        your fullName: <input type="text" v-model='fullName'>
+        <div>
+            <span>you firstName is:{{firstName}}  lastName is {{lastName}}</span>
+        </div>
+    </div>
+
+    <script>
+        var vm2 = new Vue({
+            el: '#example2',
+            data: {
+                firstName: 'sdf',
+                lastName: 'sdfewf'
+            },
+
+            computed: {
+                fullName: {
+                    get: function() {
+                        return this.firstName + ' ' + this.lastName;
+                    },
+                    set: function(newValue) {
+                        console.log(newValue);
+                        var names = newValue.split(' ');
+                        this.firstName = names[0];
+                        this.lastName = names.length > 1 ? names[1] : '';
+                    }
+                }
+            }
+        });
+
+        vm2.fullName = "111 222";
+    </script>
+    <hr>
+    <h2>侦听器</h2>
+    <div id="watch-example">
+        Ask a yes/no question: <input type="text" v-model='question'>
+        <div>{{answer }}</div>
+    </div>
+    <script>
+        var vm3 = new Vue({
+            el: "#watch-example",
+            data: {
+                question: '',
+                answer: '我无法回答你提出的问题！'
+            },
+            // 监听
+            watch: {
+                question: function(newQuestion, oldQuestion) {
+                    this.answer = "等待你输入完问题";
+                    this.debouncedGetAnswer();
+                }
+            },
+            created: function() {
+                // `_.debounce` 是一个通过 Lodash 限制操作频率的函数。
+                // 在这个例子中，我们希望限制访问 yesno.wtf/api 的频率
+                // AJAX 请求直到用户输入完毕才会发出。想要了解更多关于
+                // `_.debounce` 函数 (及其近亲 `_.throttle`) 的知识，
+                // 请参考：https://lodash.com/docs#debounce
+                this.debouncedGetAnswer = _.debounce(this.getAnswer, 500);
+            },
+            methods: {
+                getAnswer: function() {
+                    if (this.question.indexOf('?') === -1) {
+                        this.answer = "问题必须以问号结束！"
+                        return;
+                    }
+
+                    this.answer = "正在获取答案！";
+
+                    var self = this;
+
+                    axios.get('https://yesno.wtf/api')
+                        .then(function(response) {
+                            self.answer = _.capitalize(response.data.answer);
+                        })
+                        .catch(function(error) {
+                            self.answer = '错误！无法访问API！' + error;
+                        });
+                }
+            }
+        });
+    </script>
+</body>
+
+</html>
