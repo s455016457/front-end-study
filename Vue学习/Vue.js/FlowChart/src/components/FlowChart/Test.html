@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://unpkg.com/vue@next"></script>
+    <title>流程图表测试</title>
+</head>
+
+<body>
+
+    <flow-chart :data="data"></flow-chart>
+
+    <script>
+        import FlowChart from './FlowChart.vue'
+
+        var data = {
+            name: "节点1",
+            nextNode: {
+                name: "节点2",
+                nextNode: {
+                    name: "节点3",
+                    nextNode: {
+                        name: "节点4"
+                    }
+                },
+                childNodes: [{
+                    name: "节点2_1"
+                }, {
+                    name: "节点2_2"
+                }]
+            },
+            childNodes: [{
+                name: "节点1_1",
+                nextNode: {
+                    name: "节点1_2",
+                    nextNode: {
+                        name: "节点1_3"
+                    }
+                }
+            }, {
+                name: "节点2_1",
+                nextNode: {
+                    name: "节点2_2"
+                }
+            }, {
+                name: "节点3_1"
+            }]
+        };
+
+        var app = Vue.createApp({
+            components: {
+                "flow-chart": FlowChart,
+            },
+            data: function() {
+                return {
+                    data: data,
+                };
+            }
+        });
+
+        app.mount('#body');
+    </script>
+</body>
+
+</html>
