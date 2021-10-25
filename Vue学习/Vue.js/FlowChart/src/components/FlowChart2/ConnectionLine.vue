@@ -1,5 +1,5 @@
 <template>
-  <g>
+  <g class="connection-line">
     <polygon
         v-if="lineStats.hasBeginArrows"
         :points="beginArrowsPoints"
@@ -7,7 +7,8 @@
     <polyline
         :points="linePoints"
         stroke-dasharray
-        class="child-node-line"></polyline>
+        class="child-node-line">
+    </polyline>
     <polygon
         v-if="lineStats.hasEndArrows"
         :points="endArrowsPoints"
@@ -17,28 +18,59 @@
 
 <style>
   .child-node-line {
-    fill:none;
-    stroke: rgb(255, 0, 0);
-    stroke-width: 2;
-  }
-
-  .prefix-node-line {
     fill: none;
-    stroke: rgb(255, 0, 0);
     stroke-width: 2;
+    stroke-linejoin:round;
+    stroke-linecap:round;
+    stroke-dasharray: 0, 2370;
+    animation: lineMove 4s ease;
+    animation-fill-mode: forwards;
   }
 
   .child-node-arrows {
-    fill: rgb(255, 0, 0);
-    stroke: rgb(255, 0, 0);
     stroke-width: 1;
+    stroke: rgba(0, 0, 0,0);
+    fill: rgba(0, 0, 0,0);
+    animation: arrowsShow 1s ease;
+    animation-delay: 0.5s;
+    animation-fill-mode: forwards;
   }
 
   .prefix-node-arrows {
-    fill: rgb(255, 0, 0);
-    stroke: rgb(255, 0, 0);
     stroke-width: 1;
+    stroke: rgba(0, 0, 0,0);
+    fill: rgba(0, 0, 0,0);
+    animation: arrowsShow 1s ease;
+    animation-delay: 0.5s;
+    animation-fill-mode: forwards;
   }
+
+  .connection-line {
+    stroke: rgb(255, 0, 0);
+    fill: rgb(255, 0, 0);
+  }
+
+  @keyframes arrowsShow {
+    from {
+      stroke: rgba(0, 0, 0,0);
+      fill: rgba(0, 0, 0,0);
+    }
+    to {
+      stroke: rgb(255, 0, 0);
+      fill: rgb(255, 0, 0);
+    }
+  }
+
+  @keyframes lineMove {
+    0%{
+      /* stroke: rgba(0, 0, 0, 0); */
+      stroke-dasharray: 0, 2000;
+    }
+    100%{
+      /* stroke: red; */
+      stroke-dasharray: 2000, 0;
+    }
+}
 </style>
 
 <script lang="ts">
