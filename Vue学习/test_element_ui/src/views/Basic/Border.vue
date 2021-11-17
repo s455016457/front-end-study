@@ -1,11 +1,16 @@
 <template>
   <div>
-    <h2>Border</h2>
+    <my-border />
   </div>
 </template>
 
 <script lang="ts">
 import { defineComponent } from 'vue'
+import border from '@/components/Basic/Border.vue'
 
-export default defineComponent({})
+export default defineComponent({
+  components: {
+    'my-border': border
+  }
+})
 </script>

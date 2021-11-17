@@ -1,11 +1,14 @@
 <template>
-  <div>
-    <h2>Button</h2>
-  </div>
+  <my-button />
 </template>
 
 <script lang="ts">
 import { defineComponent } from 'vue'
+import myButton from '@/components/Basic/Buton.vue'
 
-export default defineComponent({})
+export default defineComponent({
+  components: {
+    myButton
+  }
+})
 </script>

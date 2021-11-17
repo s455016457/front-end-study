@@ -13,6 +13,10 @@ export default defineComponent({
 </script>
 
 <style lang="scss">
+  @import "~ag-grid-community/src/styles/ag-grid.scss";
+  @import "~ag-grid-community/src/styles/ag-theme-alpine-dark/sass/ag-theme-alpine-dark.scss";
+  @import "~ag-grid-community/src/styles/ag-theme-alpine/sass/ag-theme-alpine.scss";
+
 html, body{
   height: 100%;
   margin: 0px;

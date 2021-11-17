@@ -201,6 +201,18 @@ const menuData = [{
           name: 'Button按钮',
           url: '/Button',
           icon: 'icon-menu'
+        },
+        {
+          id: '5-1-3',
+          name: 'Color色彩',
+          url: '/Color',
+          icon: 'icon-menu'
+        },
+        {
+          id: '5-1-4',
+          name: '组合组件',
+          url: '/CombinationComponents',
+          icon: 'icon-menu'
         }
       ]
     },
@@ -212,7 +224,38 @@ const menuData = [{
   ]
 },
 {
-  id: '6',
+  id: '99',
+  name: 'AgGrid',
+  icon: 'icon-menu',
+  childs: [
+    {
+      id: '99-1',
+      name: '开始',
+      icon: 'icon-menu',
+      url: '/AgGrid-Started'
+    },
+    {
+      id: '99-2',
+      name: '状态栏',
+      icon: 'icon-menu',
+      url: '/AgGrid-StatusBar'
+    },
+    {
+      id: '99-3',
+      name: '列状态',
+      icon: 'icon-menu',
+      url: '/AgGrid-ColumnState'
+    },
+    {
+      id: '99-4',
+      name: '冻结行',
+      icon: 'icon-menu',
+      url: '/AgGrid-RowPinning'
+    }
+  ]
+},
+{
+  id: '999',
   name: 'About',
   icon: 'icon-menu',
   url: '/about'
@@ -308,10 +351,11 @@ export default defineComponent({
 
 <style lang="scss" scoped>
 $headerHeight: 60px;
-$asideWidth: 200px;
+$asideWidth: 230px;
 $elMainPadding: 0px;
 $menuPadding: 20px;
 $elContainerMarginBottom: 40px;
+$el-breadcrumbPadding: 10px;
 
 .el-header,
 .el-footer {
@@ -342,20 +386,26 @@ body > .el-container {
 }
 
 .el-menu-vertical-demo:not(.el-menu--collapse) {
-  width: 200px;
+  width: $asideWidth;
   min-height: 400px;
   padding: $menuPadding;
 }
 .el-breadcrumb{
-  padding: 0px 20px;
+  padding: $el-breadcrumbPadding;
+  background-color: #dfe6e9;
 }
+
+.el-breadcrumb-item, el-breadcrumb__inner{
+  color: rgb(20, 11, 11);
+}
+
 .menu {
   height: 100%;
   overflow: overlay;
 }
 .content {
   height: calc(100% - 20px);
-  width: calc(100% - 200px);
+  width: calc(100% - $asideWidth);
   overflow: overlay;
   display: flex;
   flex-direction: column;
