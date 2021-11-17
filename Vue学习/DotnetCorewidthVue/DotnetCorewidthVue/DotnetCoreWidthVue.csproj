@@ -3,7 +3,8 @@
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
     <!-- ClientApp对应vue工程的根目录名 -->
-    <SpaRoot>client_app\</SpaRoot>
+    <!--<SpaRoot>client_app\</SpaRoot>-->
+    <SpaRoot>client_app_elui\</SpaRoot>
   </PropertyGroup>
 
   <ItemGroup>

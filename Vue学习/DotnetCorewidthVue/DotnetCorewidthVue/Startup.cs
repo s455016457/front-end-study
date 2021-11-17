@@ -1,16 +1,9 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace DotnetCorewidthVue
 {
@@ -29,8 +22,9 @@ namespace DotnetCorewidthVue
 
             services.AddControllersWithViews();
             services.AddSpaStaticFiles(config => {
-                config.RootPath = "client_app/dist"; //此处build 对应vue项目的发布文件夹名。
-                                                     //如未配置vue项目的build文件夹名，则需修改为dist
+                //config.RootPath = "client_app/dist"; //此处build 对应vue项目的发布文件夹名。
+                //如未配置vue项目的build文件夹名，则需修改为dist
+                config.RootPath = "client_app_elui/dist";
             });
             services.AddSwaggerGen(c =>
             {
@@ -71,7 +65,8 @@ namespace DotnetCorewidthVue
             });
 
             app.UseSpa(spa => {
-                spa.Options.SourcePath = "client_app";
+                //spa.Options.SourcePath = "client_app";
+                spa.Options.SourcePath = "client_app_elui";
                 //if (env.IsDevelopment())
                 //{
                 //    //此处配置为调试时从外部引入vue项目，也就是说在运行asp.net core前需要先启动你的vue项目
