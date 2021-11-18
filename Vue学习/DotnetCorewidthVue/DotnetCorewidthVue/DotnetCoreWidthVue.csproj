@@ -7,6 +7,10 @@
     <SpaRoot>client_app_elui\</SpaRoot>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DocumentationFile>\DotnetCorewidthVue\DotnetCoreWidthVue.xml</DocumentationFile>
+  </PropertyGroup>
+
   <ItemGroup>
     <PackageReference Include="Swashbuckle.AspNetCore" Version="5.6.3" />
   </ItemGroup>
@@ -19,8 +23,8 @@
   
   <Target Name="PrecompileScript" BeforeTargets="BeforeBuild">
     <!-- cnpm 可更换为npm -->
-    <Exec WorkingDirectory="$(SpaRoot)" Command="npm install" />
-    <Exec WorkingDirectory="$(SpaRoot)" Command="npm run build" />
+    <!--<Exec WorkingDirectory="$(SpaRoot)" Command="npm install" />
+    <Exec WorkingDirectory="$(SpaRoot)" Command="npm run build" />-->
 
     <ItemGroup>
       <!-- 此处的build 路径 对应上方2.1里提到的vue发布目录， 如未更改则需要把此处build 更换为dist -->

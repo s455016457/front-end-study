@@ -1,0 +1,97 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>DotnetCoreWidthVue</name>
+    </assembly>
+    <members>
+        <member name="M:DotnetCoreWidthVue.Controllers.TestController.GetValue(System.String)">
+            <summary>
+            测试get请求获取值
+            </summary>
+            <param name="value">传入参数</param>
+            <returns></returns>
+        </member>
+        <member name="M:DotnetCoreWidthVue.Controllers.TestController.PostValue(DotnetCoreWidthVue.Models.RequestParams.CommonValueParams)">
+            <summary>
+            测试post请求
+            </summary>
+            <param name="valueParams">传入参数</param>
+            <returns></returns>
+        </member>
+        <member name="M:DotnetCoreWidthVue.Controllers.TestController.PutValue(System.String,DotnetCoreWidthVue.Models.RequestParams.CommonValueParams)">
+            <summary>
+            测试put请求
+            </summary>
+            <param name="id">id</param>
+            <param name="valueParams">valueParams</param>
+            <returns></returns>
+        </member>
+        <member name="M:DotnetCoreWidthVue.Controllers.TestController.DeleteValue(DotnetCoreWidthVue.Models.RequestParams.CommonValueParams)">
+            <summary>
+            测试delete请求
+            </summary>
+            <param name="valueParams">传入参数</param>
+            <returns></returns>
+        </member>
+        <member name="T:DotnetCoreWidthVue.Models.RequestParams.CommonValueParams">
+            <summary>
+            通用值参数
+            </summary>
+        </member>
+        <member name="P:DotnetCoreWidthVue.Models.RequestParams.CommonValueParams.Value">
+            <summary>
+            值
+            </summary>
+        </member>
+        <member name="T:DotnetCoreWidthVue.Models.ResponseResult.BaseResultModel`1">
+            <summary>
+            返回Model基类
+            </summary>
+        </member>
+        <member name="P:DotnetCoreWidthVue.Models.ResponseResult.BaseResultModel`1.Data">
+            <summary>
+            数据
+            </summary>
+        </member>
+        <member name="P:DotnetCoreWidthVue.Models.ResponseResult.BaseResultModel`1.Code">
+            <summary>
+            返回代码
+            </summary>
+        </member>
+        <member name="P:DotnetCoreWidthVue.Models.ResponseResult.BaseResultModel`1.Message">
+            <summary>
+            消息
+            </summary>
+        </member>
+        <member name="T:DotnetCoreWidthVue.Models.ResponseResult.ResultCode">
+            <summary>
+            返回代码
+            </summary>
+        </member>
+        <member name="F:DotnetCoreWidthVue.Models.ResponseResult.ResultCode.Ok">
+            <summary>
+            请求成功
+            </summary>
+        </member>
+        <member name="F:DotnetCoreWidthVue.Models.ResponseResult.ResultCode.Failure">
+            <summary>
+            业务失败
+            </summary>
+        </member>
+        <member name="F:DotnetCoreWidthVue.Models.ResponseResult.ResultCode.Untrusted">
+            <summary>
+            没有授权
+            </summary>
+        </member>
+        <member name="F:DotnetCoreWidthVue.Models.ResponseResult.ResultCode.ServerError">
+            <summary>
+            服务端错误
+            </summary>
+        </member>
+        <member name="T:DotnetCoreWidthVue.Models.ResponseResult.MessageResultModel">
+            <summary>
+            消息返回Model
+            </summary>
+        </member>
+    </members>
+</doc>
